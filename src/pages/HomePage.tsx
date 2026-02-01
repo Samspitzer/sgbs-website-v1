@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, Phone, Mail, ChevronLeft, ChevronRight } from 'lucide-react';
+import { ArrowRight, Phone, Check } from 'lucide-react';
 import { services, stats } from '../data/services';
 
 type SlideSettings = {
@@ -182,9 +182,6 @@ export function HomePage() {
     return () => clearInterval(interval);
   }, []);
 
-  const prevSlide = () => setActiveSlide((prev) => (prev - 1 + projects.length) % projects.length);
-  const nextSlide = () => setActiveSlide((prev) => (prev + 1) % projects.length);
-
   const current = projects[activeSlide];
   const s = current.settings;
 
@@ -239,7 +236,7 @@ export function HomePage() {
           <div 
             className="absolute inset-0"
             style={{
-              background: `linear-gradient(to right, rgba(0,0,0,${s.leftGradient / 100}) 0%, rgba(0,0,0,${s.leftGradient / 200}) 50%, transparent 100%)`,
+              background: `linear-gradient(to right, rgba(0,0,0,0.80) 0%, rgba(0,0,0,0.60) 35%, rgba(0,0,0,0.25) 65%, transparent 100%)`,
             }}
           />
         </div>
@@ -249,17 +246,17 @@ export function HomePage() {
           <div className="flex flex-col justify-center h-full pt-20">
             <div className="max-w-2xl">
               <p className="text-accent-400 font-semibold tracking-[0.2em] uppercase text-sm mb-4 animate-fade-in">
-                Doors • Frames • Hardware • Millwork
+                Your Complete Door, Hardware & Millwork Partner
               </p>
 
               <h1 className="font-display text-5xl md:text-6xl lg:text-7xl font-bold text-cream-100 leading-[1.1] animate-fade-in-up">
-                Opening Doors<br />
-                <span className="text-accent-400">for Builders</span>
+                Opening Doors for<br />
+                <span className="text-accent-400 whitespace-nowrap">Builders & Developers</span>
               </h1>
+              <p className="mt-3 text-cream-100/70 text-xl font-medium animate-fade-in-up">Since 2019</p>
 
-              <p className="mt-6 text-lg lg:text-xl text-cream-100/80 leading-relaxed max-w-lg animate-fade-in-up stagger-2">
-                Your single source for multifamily and commercial door packages. 
-                Accurate estimating, clean coordination, dependable deliveries.
+              <p className="mt-6 text-lg lg:text-xl text-cream-100/90 leading-relaxed max-w-lg animate-fade-in-up stagger-2">
+                Multifamily and commercial door packages — from estimating to installation. Let us handle the details.
               </p>
 
               <div className="mt-10 flex flex-col sm:flex-row gap-4 animate-fade-in-up stagger-3">
@@ -270,53 +267,19 @@ export function HomePage() {
                   View Projects
                 </Link>
               </div>
-            </div>
-          </div>
 
-          {/* Slide Navigation */}
-          <div className="absolute bottom-8 left-4 sm:left-6 lg:left-8 right-4 sm:right-6 lg:right-8">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                {projects.map((_, index) => (
-                  <button
-                    key={index}
-                    onClick={() => setActiveSlide(index)}
-                    className={`h-1 transition-all duration-300 ${
-                      index === activeSlide 
-                        ? 'w-8 bg-accent-500' 
-                        : 'w-4 bg-cream-100/30 hover:bg-cream-100/50'
-                    }`}
-                  />
-                ))}
-              </div>
-
-              <div className="flex items-center gap-2">
-                <button
-                  onClick={prevSlide}
-                  className="w-12 h-12 flex items-center justify-center border border-cream-100/20 text-cream-100/60 hover:border-cream-100/40 hover:text-cream-100 transition-colors"
-                >
-                  <ChevronLeft className="w-5 h-5" />
-                </button>
-                <button
-                  onClick={nextSlide}
-                  className="w-12 h-12 flex items-center justify-center border border-cream-100/20 text-cream-100/60 hover:border-cream-100/40 hover:text-cream-100 transition-colors"
-                >
-                  <ChevronRight className="w-5 h-5" />
-                </button>
+              {/* Trust Indicators */}
+              <div className="mt-8 flex flex-wrap gap-6 animate-fade-in-up stagger-4">
+                <div className="flex items-center gap-2 text-cream-100/70 text-sm">
+                  <Check className="w-4 h-4 text-accent-400" />
+                  Nationwide Delivery
+                </div>
+                <div className="flex items-center gap-2 text-cream-100/70 text-sm">
+                  <Check className="w-4 h-4 text-accent-400" />
+                  Professional Installation
+                </div>
               </div>
             </div>
-          </div>
-
-          {/* Contact Strip */}
-          <div className="absolute bottom-8 right-4 sm:right-6 lg:right-8 hidden lg:flex items-center gap-6">
-            <a href="tel:845-923-2052" className="flex items-center gap-2 text-cream-100/70 hover:text-cream-100 transition-colors">
-              <Phone className="w-4 h-4" />
-              <span className="text-sm">845-923-2052</span>
-            </a>
-            <a href="mailto:sales@sgbsny.com" className="flex items-center gap-2 text-cream-100/70 hover:text-cream-100 transition-colors">
-              <Mail className="w-4 h-4" />
-              <span className="text-sm">sales@sgbsny.com</span>
-            </a>
           </div>
         </div>
       </section>

@@ -14,12 +14,12 @@ export default {
           600: '#2a2a2a',
           500: '#3d3d3d',
         },
-        // Accent red from logo
+        // Accent burgundy from logo
         accent: {
-          400: '#dc2626',
-          500: '#b91c1c',
-          600: '#991b1b',
-          700: '#7f1d1d',
+          300: '#c45a5a',
+          400: '#a52a2a',
+          500: '#8B1A1A',
+          600: '#6b1414',
         },
         // Warm cream for contrast text
         cream: {
