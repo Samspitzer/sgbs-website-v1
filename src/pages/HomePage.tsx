@@ -1,16 +1,12 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, Phone, Check } from 'lucide-react';
-import { services, stats } from '../data/services';
+import { services } from '../data/services';
 
 type SlideSettings = {
   focusX: number;
   focusYStart: number;
   focusYEnd: number;
-  dim: number;
-  leftGradient: number;
-  blur: number;
-  blurOpacity: number;
   zoomFrom: number;
   zoomTo: number;
 };
@@ -35,10 +31,6 @@ const projects: Project[] = [
       focusX: 0,
       focusYStart: 0,
       focusYEnd: 100,
-      dim: 25,
-      leftGradient: 70,
-      blur: 18,
-      blurOpacity: 60,
       zoomFrom: 1.2,
       zoomTo: 1.03,
     },
@@ -53,10 +45,6 @@ const projects: Project[] = [
       focusX: 50,
       focusYStart: 0,
       focusYEnd: 96,
-      dim: 22,
-      leftGradient: 62,
-      blur: 18,
-      blurOpacity: 55,
       zoomFrom: 1.03,
       zoomTo: 1.21,
     },
@@ -71,10 +59,6 @@ const projects: Project[] = [
       focusX: 50,
       focusYStart: 50,
       focusYEnd: 50,
-      dim: 22,
-      leftGradient: 62,
-      blur: 18,
-      blurOpacity: 55,
       zoomFrom: 1.1,
       zoomTo: 1.03,
     },
@@ -89,10 +73,6 @@ const projects: Project[] = [
       focusX: 50,
       focusYStart: 50,
       focusYEnd: 50,
-      dim: 22,
-      leftGradient: 62,
-      blur: 18,
-      blurOpacity: 55,
       zoomFrom: 1.1,
       zoomTo: 1.03,
     },
@@ -107,10 +87,6 @@ const projects: Project[] = [
       focusX: 50,
       focusYStart: 50,
       focusYEnd: 50,
-      dim: 22,
-      leftGradient: 62,
-      blur: 18,
-      blurOpacity: 55,
       zoomFrom: 1.1,
       zoomTo: 1.03,
     },
@@ -125,10 +101,6 @@ const projects: Project[] = [
       focusX: 50,
       focusYStart: 0,
       focusYEnd: 88,
-      dim: 22,
-      leftGradient: 62,
-      blur: 18,
-      blurOpacity: 55,
       zoomFrom: 1.23,
       zoomTo: 1.03,
     },
@@ -143,10 +115,6 @@ const projects: Project[] = [
       focusX: 50,
       focusYStart: 100,
       focusYEnd: 0,
-      dim: 22,
-      leftGradient: 62,
-      blur: 18,
-      blurOpacity: 55,
       zoomFrom: 1.02,
       zoomTo: 1.2,
     },
@@ -161,10 +129,6 @@ const projects: Project[] = [
       focusX: 0,
       focusYStart: 100,
       focusYEnd: 38,
-      dim: 22,
-      leftGradient: 62,
-      blur: 18,
-      blurOpacity: 55,
       zoomFrom: 1.29,
       zoomTo: 1.03,
     },
@@ -188,21 +152,18 @@ export function HomePage() {
   return (
     <div className="bg-dark-950">
       {/* ============ HERO SECTION ============ */}
-      <section className="relative h-screen min-h-[700px] overflow-hidden">
+      <section className="relative h-screen min-h-[700px] overflow-hidden snap-section">
         {/* Background Image with Settings Applied */}
         <div className="absolute inset-0">
           {/* Blurred background layer */}
-          <div 
-            className="absolute inset-0 overflow-hidden"
-            style={{ opacity: s.blurOpacity / 100 }}
-          >
+          <div className="absolute inset-0 overflow-hidden opacity-55">
             <img
               src={current.image}
               alt=""
               className="absolute w-full h-full object-cover"
               style={{
-                filter: `blur(${s.blur}px)`,
-                transform: `scale(1.2)`,
+                filter: 'blur(18px)',
+                transform: 'scale(1.2)',
               }}
             />
           </div>
@@ -226,40 +187,38 @@ export function HomePage() {
             />
           </div>
 
-          {/* Dim overlay */}
-          <div 
-            className="absolute inset-0 bg-black"
-            style={{ opacity: s.dim / 100 }}
-          />
-
-          {/* Left gradient for text readability */}
-          <div 
-            className="absolute inset-0"
-            style={{
-              background: `linear-gradient(to right, rgba(0,0,0,0.80) 0%, rgba(0,0,0,0.60) 35%, rgba(0,0,0,0.25) 65%, transparent 100%)`,
-            }}
-          />
+          {/* Dark overlay across entire image */}
+          <div className="absolute inset-0 hero-overlay" />
+          
+          {/* Left gradient for text area */}
+          <div className="absolute inset-0 hero-text-backdrop" />
+          
+          {/* Top gradient for header readability */}
+          <div className="absolute inset-x-0 top-0 h-40 hero-top-gradient" />
         </div>
 
         {/* Hero Content */}
         <div className="relative h-full container-custom">
           <div className="flex flex-col justify-center h-full pt-20">
-            <div className="max-w-2xl">
-              <p className="text-accent-400 font-semibold tracking-[0.2em] uppercase text-sm mb-4 animate-fade-in">
+            <div className="max-w-3xl">
+              <p className="text-accent-400 font-bold tracking-[0.2em] uppercase text-sm mb-4 animate-fade-in hero-text">
                 Your Complete Door, Hardware & Millwork Partner
               </p>
 
-              <h1 className="font-display text-5xl md:text-6xl lg:text-7xl font-bold text-cream-100 leading-[1.1] animate-fade-in-up">
+              <h1 className="font-display text-5xl md:text-6xl lg:text-7xl font-bold text-white leading-[1.1] animate-fade-in-up hero-text-strong">
                 Opening Doors for<br />
                 <span className="text-accent-400 whitespace-nowrap">Builders & Developers</span>
               </h1>
-              <p className="mt-3 text-cream-100/70 text-xl font-medium animate-fade-in-up">Since 2019</p>
+              <p className="mt-3 text-white text-xl font-semibold animate-fade-in-up stagger-1 hero-text">Since 2019</p>
 
-              <p className="mt-6 text-lg lg:text-xl text-cream-100/90 leading-relaxed max-w-lg animate-fade-in-up stagger-2">
-                Multifamily and commercial door packages — from estimating to installation. Let us handle the details.
+              <p className="mt-6 text-2xl lg:text-3xl text-white font-bold leading-relaxed animate-fade-in-up stagger-2 hero-text-strong">
+                Doors & millwork? Our problem. Not yours.
+              </p>
+              <p className="mt-2 text-lg lg:text-xl text-white/90 font-medium leading-relaxed max-w-lg animate-fade-in-up stagger-3 hero-text">
+                From blueprint to punch list — one call, completely handled.
               </p>
 
-              <div className="mt-10 flex flex-col sm:flex-row gap-4 animate-fade-in-up stagger-3">
+              <div className="mt-10 flex flex-col sm:flex-row gap-4 animate-fade-in-up stagger-4">
                 <Link to="/contact" className="btn-primary">
                   Get a Quote <ArrowRight className="w-5 h-5" />
                 </Link>
@@ -269,12 +228,12 @@ export function HomePage() {
               </div>
 
               {/* Trust Indicators */}
-              <div className="mt-8 flex flex-wrap gap-6 animate-fade-in-up stagger-4">
-                <div className="flex items-center gap-2 text-cream-100/70 text-sm">
+              <div className="mt-8 flex flex-wrap gap-6 animate-fade-in-up stagger-5 hero-text">
+                <div className="flex items-center gap-2 text-white font-medium text-sm">
                   <Check className="w-4 h-4 text-accent-400" />
                   Nationwide Delivery
                 </div>
-                <div className="flex items-center gap-2 text-cream-100/70 text-sm">
+                <div className="flex items-center gap-2 text-white font-medium text-sm">
                   <Check className="w-4 h-4 text-accent-400" />
                   Professional Installation
                 </div>
@@ -285,58 +244,66 @@ export function HomePage() {
       </section>
 
       {/* ============ INTRO SECTION ============ */}
-      <section className="section-padding bg-dark-900 relative overflow-hidden noise-overlay">
-        <div className="container-custom relative">
-          <div className="grid lg:grid-cols-2 gap-16 items-center">
-            <div>
-              <div className="line-accent mb-6" />
-              <h2 className="font-display text-3xl md:text-4xl lg:text-5xl font-bold text-cream-100">
-                The Leader in<br />
-                <span className="text-accent-400">Door & Hardware Supply</span>
-              </h2>
-              <p className="mt-6 text-cream-100/70 text-lg leading-relaxed">
-                S&G Builders Supply is your complete source for doors, frames, hardware, 
-                and molding. We specialize in multifamily residential and commercial construction, 
-                providing complete door packages for projects ranging from small renovations to 
-                large-scale developments with hundreds of units.
-              </p>
-              <p className="mt-4 text-cream-100/70 text-lg leading-relaxed">
-                With nationwide delivery capabilities and professional installation services 
-                throughout the tristate area, we streamline your procurement process and 
-                ensure your project stays on schedule.
-              </p>
+      <section className="relative h-screen flex items-center justify-center overflow-hidden snap-section">
+        {/* Red line divider at top - spacer between header and section */}
+        <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-accent-500 to-transparent" />
+        
+        {/* Background Image */}
+        <div className="absolute inset-0">
+          <img
+            src="/images/backgrounds/intro.png"
+            alt=""
+            className="w-full h-full object-cover object-[50%_32%]"
+          />
+          {/* Dark overlay */}
+          <div className="absolute inset-0 bg-black/40" />
+        </div>
+        
+        <div className="container-custom relative h-full flex flex-col items-center justify-center">
+          {/* Text content - positioned for picture frame */}
+          <div className="text-center" style={{ marginTop: '-26vh' }}>
+            <h2 
+              className="font-display text-2xl md:text-3xl lg:text-4xl font-bold text-white leading-tight"
+              style={{ textShadow: '2px 2px 8px rgba(0,0,0,0.7)' }}
+            >
+              Your Complete Partner for<br />
+              <span className="text-accent-400">Doors, Hardware & Millwork</span>
+            </h2>
+            
+            <p 
+              className="mt-6 text-white/90 text-base leading-relaxed max-w-lg mx-auto"
+              style={{ textShadow: '1px 1px 4px rgba(0,0,0,0.7)' }}
+            >
+              S&G Builders Supply specializes in multifamily residential 
+              and commercial construction. Complete door packages from 
+              blueprint to punch list — one call, completely handled.
+            </p>
+          </div>
+          
+          {/* Buttons - positioned for wainscoting boxes */}
+          <div className="absolute bottom-[21%] left-0 right-0 flex items-center justify-center">
+            <div className="flex items-center" style={{ gap: '12vw' }}>
               <Link 
                 to="/about" 
-                className="inline-flex items-center gap-2 mt-8 text-accent-400 font-semibold hover:text-accent-300 transition-colors"
+                className="text-accent-400 font-semibold text-lg hover:text-accent-300 transition-colors"
+                style={{ textShadow: '1px 1px 4px rgba(0,0,0,0.7)' }}
               >
-                Learn More About Us <ArrowRight className="w-5 h-5" />
+                About Our Company
               </Link>
-            </div>
-
-            {/* Stats Grid */}
-            <div className="grid grid-cols-2 gap-6">
-              {stats.map((stat, idx) => (
-                <div 
-                  key={stat.label}
-                  className={`p-8 border bg-dark-800/50 ${
-                    idx === 0 ? 'border-accent-500/50' : 'border-dark-600'
-                  }`}
-                >
-                  <div className="text-4xl lg:text-5xl font-display font-bold text-accent-400">
-                    {stat.value}
-                  </div>
-                  <div className="mt-2 text-cream-100/60 text-sm uppercase tracking-wide">
-                    {stat.label}
-                  </div>
-                </div>
-              ))}
+              <Link 
+                to="/services" 
+                className="text-white font-semibold text-lg hover:text-white/80 transition-colors"
+                style={{ textShadow: '1px 1px 4px rgba(0,0,0,0.7)' }}
+              >
+                Our Services
+              </Link>
             </div>
           </div>
         </div>
       </section>
 
       {/* ============ SERVICES SECTION ============ */}
-      <section className="section-padding bg-dark-950">
+      <section className="min-h-screen flex items-center bg-dark-950 snap-section py-20">
         <div className="container-custom">
           <div className="text-center max-w-2xl mx-auto mb-16">
             <div className="line-accent mx-auto mb-6" />
@@ -379,7 +346,7 @@ export function HomePage() {
       </section>
 
       {/* ============ FEATURED PROJECTS SECTION ============ */}
-      <section className="section-padding bg-dark-900 relative overflow-hidden">
+      <section className="min-h-screen flex items-center bg-dark-900 relative overflow-hidden snap-section py-20">
         <div className="container-custom">
           <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-12">
             <div>
@@ -428,7 +395,7 @@ export function HomePage() {
       </section>
 
       {/* ============ CTA SECTION ============ */}
-      <section className="section-padding bg-dark-950 relative overflow-hidden">
+      <section className="min-h-screen flex items-center bg-dark-950 relative overflow-hidden snap-section">
         <div className="absolute inset-0 opacity-20">
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-accent-500/20 rounded-full blur-3xl" />
         </div>

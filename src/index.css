@@ -2,9 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Base styles */
+/* ============================================
+   BASE STYLES
+   ============================================ */
 html {
   scroll-behavior: smooth;
+  scroll-snap-type: y mandatory;
 }
 
 body {
@@ -15,7 +18,15 @@ body {
   color: #faf8f5;
 }
 
-/* Custom scrollbar */
+/* Full-height sections snap into place */
+.snap-section {
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+}
+
+/* ============================================
+   CUSTOM SCROLLBAR
+   ============================================ */
 ::-webkit-scrollbar {
   width: 8px;
 }
@@ -30,10 +41,9 @@ body {
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #b91c1c;
+  background: #8B1A1A;
 }
 
-/* Hide scrollbar for slideshow */
 .hide-scrollbar {
   -ms-overflow-style: none;
   scrollbar-width: none;
@@ -43,21 +53,16 @@ body {
   display: none;
 }
 
-/* Hero slideshow */
-.hero-slide {
-  animation: heroZoom 8s ease-out forwards;
-}
+/* ============================================
+   HERO SECTION - SLIDESHOW
+   ============================================ */
 
+/* Main image zoom animation */
 .hero-zoom {
-  animation: heroZoomDynamic 8s ease-out forwards;
+  animation: heroZoomPan 8s ease-out forwards;
 }
 
-@keyframes heroZoom {
-  0% { transform: scale(1.05); }
-  100% { transform: scale(1); }
-}
-
-@keyframes heroZoomDynamic {
+@keyframes heroZoomPan {
   0% { 
     transform: scale(var(--zoom-from, 1.1)); 
     object-position: var(--focus-x, 50%) var(--y-start, 50%);
@@ -68,68 +73,111 @@ body {
   }
 }
 
-/* Custom slider styles */
-.slider {
-  -webkit-appearance: none;
-  appearance: none;
-  height: 6px;
-  background: #2a2a2a;
-  border-radius: 3px;
-  outline: none;
+/* Universal dark overlay for all hero slides */
+.hero-overlay {
+  background: rgba(0, 0, 0, 0.5);
 }
 
-.slider::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  appearance: none;
-  width: 18px;
-  height: 18px;
-  background: #3b82f6;
-  border-radius: 50%;
-  cursor: pointer;
-  transition: background 0.2s;
+/* Universal left gradient for text readability */
+.hero-text-backdrop {
+  background: radial-gradient(
+    ellipse 80% 70% at 25% 50%,
+    rgba(0, 0, 0, 0.45) 0%,
+    rgba(0, 0, 0, 0.25) 50%,
+    transparent 100%
+  );
 }
 
-.slider::-webkit-slider-thumb:hover {
-  background: #60a5fa;
+/* Top gradient for header */
+.hero-top-gradient {
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.5) 0%,
+    rgba(0, 0, 0, 0.25) 50%,
+    transparent 100%
+  );
 }
 
-.slider::-moz-range-thumb {
-  width: 18px;
-  height: 18px;
-  background: #3b82f6;
-  border-radius: 50%;
-  cursor: pointer;
-  border: none;
+/* Subtle text shadow for hero content */
+.hero-text {
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
 }
 
-.slider::-moz-range-thumb:hover {
-  background: #60a5fa;
+.hero-text-strong {
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
 }
 
-/* Stagger animations */
-.stagger-1 { animation-delay: 0.1s; }
-.stagger-2 { animation-delay: 0.2s; }
-.stagger-3 { animation-delay: 0.3s; }
-.stagger-4 { animation-delay: 0.4s; }
-.stagger-5 { animation-delay: 0.5s; }
-.stagger-6 { animation-delay: 0.6s; }
+/* ============================================
+   HERO TEXT ANIMATIONS - STAGGERED FADE IN
+   ============================================ */
 
-/* Gradient text */
+/* Base state - invisible */
+.animate-fade-in,
+.animate-fade-in-up {
+  opacity: 0;
+}
+
+/* Fade in */
+.animate-fade-in {
+  animation: fadeIn 1s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+@keyframes fadeIn {
+  from { 
+    opacity: 0;
+  }
+  to { 
+    opacity: 1;
+  }
+}
+
+/* Fade in and slide up */
+.animate-fade-in-up {
+  animation: fadeInUp 1s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+@keyframes fadeInUp {
+  from { 
+    opacity: 0; 
+    transform: translateY(25px); 
+  }
+  to { 
+    opacity: 1; 
+    transform: translateY(0); 
+  }
+}
+
+/* Stagger delays - creates cascade effect */
+.stagger-1 { animation-delay: 0.2s; }
+.stagger-2 { animation-delay: 0.4s; }
+.stagger-3 { animation-delay: 0.55s; }
+.stagger-4 { animation-delay: 0.7s; }
+.stagger-5 { animation-delay: 0.85s; }
+.stagger-6 { animation-delay: 1.0s; }
+
+/* ============================================
+   UI COMPONENTS
+   ============================================ */
+
+/* Gradient text effect */
 .text-gradient {
-  background: linear-gradient(135deg, #faf8f5 0%, #b91c1c 100%);
+  background: linear-gradient(135deg, #faf8f5 0%, #8B1A1A 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
 
-/* Decorative line */
+/* Decorative accent line */
 .line-accent {
   width: 60px;
   height: 3px;
-  background: linear-gradient(90deg, #b91c1c, #dc2626);
+  background: linear-gradient(90deg, #8B1A1A, #a52a2a);
 }
 
-/* Card hover effect */
+/* ============================================
+   CARD COMPONENTS
+   ============================================ */
+
 .card-hover {
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
@@ -142,7 +190,7 @@ body {
   transform: scale(1.05);
 }
 
-/* Image overlay gradient */
+/* Image overlay gradient (for project cards) */
 .overlay-gradient {
   background: linear-gradient(
     to bottom,
@@ -152,14 +200,17 @@ body {
   );
 }
 
-/* Button styles */
+/* ============================================
+   BUTTONS
+   ============================================ */
+
 .btn-primary {
   @apply inline-flex items-center justify-center gap-2 px-8 py-4 bg-accent-500 text-white font-semibold tracking-wide transition-all duration-300;
 }
 
 .btn-primary:hover {
   @apply bg-accent-400 transform -translate-y-0.5;
-  box-shadow: 0 10px 30px -10px rgba(185, 28, 28, 0.5);
+  box-shadow: 0 10px 30px -10px rgba(139, 26, 26, 0.5);
 }
 
 .btn-outline {
@@ -170,17 +221,30 @@ body {
   @apply border-cream-100 bg-cream-100/10;
 }
 
-/* Section padding */
+.btn-outline-dark {
+  @apply inline-flex items-center justify-center gap-2 px-8 py-4 border-2 border-dark-800 text-dark-800 font-semibold tracking-wide transition-all duration-300;
+}
+
+.btn-outline-dark:hover {
+  @apply border-dark-900 bg-dark-900/10;
+}
+
+/* ============================================
+   LAYOUT UTILITIES
+   ============================================ */
+
 .section-padding {
   @apply py-20 lg:py-32;
 }
 
-/* Container */
 .container-custom {
   @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
 }
 
-/* Noise texture overlay */
+/* ============================================
+   TEXTURE & EFFECTS
+   ============================================ */
+
 .noise-overlay::before {
   content: '';
   position: absolute;
@@ -190,8 +254,20 @@ body {
   pointer-events: none;
 }
 
-/* Focus styles */
+/* ============================================
+   ACCESSIBILITY
+   ============================================ */
+
 *:focus-visible {
-  outline: 2px solid #b91c1c;
+  outline: 2px solid rgba(139, 26, 26, 0.5);
   outline-offset: 2px;
+}
+
+/* Remove outline on logo */
+a:focus-visible img {
+  outline: none;
+}
+
+a:has(img):focus-visible {
+  outline: none;
 }
