@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, X, Phone } from 'lucide-react';
+import { Menu, X, Phone, Linkedin, MessageCircle, LogIn } from 'lucide-react';
 
 const navLinks = [
   { label: 'About', to: '/about' },
@@ -11,76 +11,33 @@ const navLinks = [
 
 export function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [isVisible, setIsVisible] = useState(false);
   const location = useLocation();
 
   useEffect(() => {
     setIsMobileMenuOpen(false);
   }, [location]);
 
-  // Show header when mouse is near top of screen
-  useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      if (e.clientY < 100) {
-        setIsVisible(true);
-      } else if (e.clientY > 150 && !isMobileMenuOpen) {
-        setIsVisible(false);
-      }
-    };
-
-    // Also show header when scrolling up significantly
-    let lastScrollY = window.scrollY;
-    const handleScroll = () => {
-      const currentScrollY = window.scrollY;
-      if (currentScrollY < lastScrollY && currentScrollY > 100) {
-        setIsVisible(true);
-      }
-      lastScrollY = currentScrollY;
-    };
-
-    window.addEventListener('mousemove', handleMouseMove);
-    window.addEventListener('scroll', handleScroll);
-    
-    return () => {
-      window.removeEventListener('mousemove', handleMouseMove);
-      window.removeEventListener('scroll', handleScroll);
-    };
-  }, [isMobileMenuOpen]);
-
-  // Keep header visible when mobile menu is open
-  useEffect(() => {
-    if (isMobileMenuOpen) {
-      setIsVisible(true);
-    }
-  }, [isMobileMenuOpen]);
-
   const isActive = (path: string) => location.pathname === path;
 
   return (
     <>
-      {/* Invisible hover trigger zone at top of screen */}
-      <div 
-        className="fixed top-0 left-0 right-0 h-16 z-40"
-        onMouseEnter={() => setIsVisible(true)}
-      />
-      
       <header
-        className={`fixed top-0 left-0 right-0 z-50 bg-black/15 backdrop-blur-[3px] transition-transform duration-300 ${
-          isVisible ? 'translate-y-0' : '-translate-y-full'
-        }`}
+        className="fixed top-0 left-0 right-0 z-50 backdrop-blur-[2px] border-b border-white/10"
+        style={{ background: 'linear-gradient(to right, rgba(10,10,10,0.12) 0%, rgba(10,10,10,0.20) 35%, rgba(10,10,10,0.40) 65%, rgba(10,10,10,0.60) 100%)' }}
       >
-        <div className="container-custom">
+        <div className="w-full px-6 md:px-10 lg:px-16 xl:px-20">
           <div className="flex items-center justify-between h-20 lg:h-24">
             {/* Logo */}
             <Link 
               to="/" 
-              className="relative z-10"
+              className="relative z-10 flex-shrink-0"
               onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
             >
               <img
                 src="/images/logo.png"
                 alt="S&G Builders Supply Inc."
-                className="h-12 lg:h-14 w-auto"
+                className="h-16 lg:h-[4.5rem] w-auto"
+                style={{ filter: 'drop-shadow(0 1px 6px rgba(255,255,255,0.4)) drop-shadow(0 0 12px rgba(255,255,255,0.2))' }}
               />
             </Link>
 
@@ -90,10 +47,10 @@ export function Header() {
                 <Link
                   key={link.label}
                   to={link.to}
-                  className={`relative px-5 py-2 font-medium text-sm tracking-wide uppercase transition-colors ${
+                  className={`relative px-5 py-2 font-bold text-base tracking-wide uppercase transition-colors hero-text-strong ${
                     isActive(link.to)
                       ? 'text-accent-400'
-                      : 'text-cream-100/80 hover:text-cream-100'
+                      : 'text-white hover:text-accent-300'
                   }`}
                 >
                   {link.label}
@@ -103,14 +60,28 @@ export function Header() {
                 </Link>
               ))}
 
-              <div className="w-px h-6 bg-cream-100/20 mx-4" />
+              <Link
+                to="/employee-login"
+                className={`relative px-5 py-2 font-bold text-base tracking-wide uppercase transition-colors hero-text-strong ${
+                  isActive('/employee-login')
+                    ? 'text-accent-400'
+                    : 'text-white hover:text-accent-300'
+                }`}
+              >
+                Employee Login
+                {isActive('/employee-login') && (
+                  <span className="absolute bottom-0 left-5 right-5 h-0.5 bg-accent-500" />
+                )}
+              </Link>
+
+              <div className="w-px h-6 bg-white/20 mx-4" />
 
               <a
                 href="tel:845-923-2052"
-                className="flex items-center gap-2 text-cream-100/80 hover:text-cream-100 transition-colors mr-4"
+                className="flex items-center gap-2 text-white hover:text-accent-300 transition-colors mr-4 hero-text-strong"
               >
                 <Phone className="w-4 h-4" />
-                <span className="text-sm font-medium">845-923-2052</span>
+                <span className="text-base font-bold">845-923-2052</span>
               </a>
 
               <Link
@@ -119,6 +90,27 @@ export function Header() {
               >
                 Get a Quote
               </Link>
+
+              <div className="ml-4 flex items-center gap-3 hero-text-strong">
+                <a
+                  href="https://www.linkedin.com/company/sgbuilderssupply"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-white hover:text-accent-300 transition-colors"
+                  aria-label="LinkedIn"
+                >
+                  <Linkedin className="w-5 h-5" />
+                </a>
+                <a
+                  href="https://wa.me/18459232428"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-white hover:text-green-400 transition-colors"
+                  aria-label="WhatsApp"
+                >
+                  <MessageCircle className="w-5 h-5" />
+                </a>
+              </div>
             </nav>
 
             {/* Mobile Menu Button */}
@@ -176,6 +168,32 @@ export function Header() {
               >
                 Get a Quote
               </Link>
+
+              {/* Mobile Social Links */}
+              <div className="flex items-center gap-6 mt-6">
+                <a
+                  href="https://www.linkedin.com/company/sgbuilderssupply"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-cream-100/60 hover:text-cream-100 transition-colors"
+                >
+                  <Linkedin className="w-6 h-6" />
+                </a>
+                <a
+                  href="https://wa.me/18459232428"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-cream-100/60 hover:text-green-400 transition-colors"
+                >
+                  <MessageCircle className="w-6 h-6" />
+                </a>
+                <a
+                  href="/employee-login"
+                  className="text-cream-100/60 hover:text-cream-100 transition-colors"
+                >
+                  <LogIn className="w-6 h-6" />
+                </a>
+              </div>
             </nav>
           </div>
         </div>

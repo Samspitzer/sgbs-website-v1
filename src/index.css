@@ -6,8 +6,7 @@
    BASE STYLES
    ============================================ */
 html {
-  scroll-behavior: smooth;
-  scroll-snap-type: y mandatory;
+  scroll-behavior: auto;
 }
 
 body {
@@ -18,10 +17,9 @@ body {
   color: #faf8f5;
 }
 
-/* Full-height sections snap into place */
+/* Full-height sections - JS handles snapping */
 .snap-section {
-  scroll-snap-align: start;
-  scroll-snap-stop: always;
+  min-height: 100vh;
 }
 
 /* ============================================
@@ -73,38 +71,54 @@ body {
   }
 }
 
-/* Universal dark overlay for all hero slides */
-.hero-overlay {
+/* ============================================
+   OVERLAY STYLES
+   Adjust opacity here to control all overlays
+   ============================================ */
+
+/* Main overlay - used on hero and intro sections */
+.section-overlay {
+  background: rgba(0, 0, 0, 0.22);
+}
+
+/* Lighter option */
+.section-overlay-light {
+  background: rgba(0, 0, 0, 0.12);
+}
+
+/* Heavier option */
+.section-overlay-heavy {
   background: rgba(0, 0, 0, 0.5);
 }
+
 
 /* Universal left gradient for text readability */
 .hero-text-backdrop {
   background: radial-gradient(
-    ellipse 80% 70% at 25% 50%,
-    rgba(0, 0, 0, 0.45) 0%,
-    rgba(0, 0, 0, 0.25) 50%,
+    ellipse 70% 90% at 18% 50%,
+    rgba(0, 0, 0, 0.65) 0%,
+    rgba(0, 0, 0, 0.35) 50%,
     transparent 100%
   );
 }
 
-/* Top gradient for header */
+/* Top gradient for header - subtle since header has its own gradient */
 .hero-top-gradient {
   background: linear-gradient(
     to bottom,
-    rgba(0, 0, 0, 0.5) 0%,
-    rgba(0, 0, 0, 0.25) 50%,
+    rgba(0, 0, 0, 0.15) 0%,
+    rgba(0, 0, 0, 0.05) 50%,
     transparent 100%
   );
 }
 
 /* Subtle text shadow for hero content */
 .hero-text {
-  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.8), 0 0 12px rgba(0, 0, 0, 0.4);
 }
 
 .hero-text-strong {
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.9), 0 0 20px rgba(0, 0, 0, 0.5);
 }
 
 /* ============================================
@@ -190,16 +204,6 @@ body {
   transform: scale(1.05);
 }
 
-/* Image overlay gradient (for project cards) */
-.overlay-gradient {
-  background: linear-gradient(
-    to bottom,
-    rgba(10, 10, 10, 0) 0%,
-    rgba(10, 10, 10, 0.4) 50%,
-    rgba(10, 10, 10, 0.9) 100%
-  );
-}
-
 /* ============================================
    BUTTONS
    ============================================ */
@@ -214,11 +218,12 @@ body {
 }
 
 .btn-outline {
-  @apply inline-flex items-center justify-center gap-2 px-8 py-4 border-2 border-cream-100/30 text-cream-100 font-semibold tracking-wide transition-all duration-300;
+  @apply inline-flex items-center justify-center gap-2 px-8 py-4 border-2 border-white/50 text-white font-semibold tracking-wide transition-all duration-300;
+  background: rgba(0, 0, 0, 0.25);
 }
 
 .btn-outline:hover {
-  @apply border-cream-100 bg-cream-100/10;
+  @apply border-white bg-white/15;
 }
 
 .btn-outline-dark {

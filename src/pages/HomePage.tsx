@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, Phone, Check } from 'lucide-react';
 import { services } from '../data/services';
+import { useSmoothSnap } from '../hooks/useSmoothSnap';
 
 type SlideSettings = {
   focusX: number;
@@ -138,6 +139,9 @@ const projects: Project[] = [
 export function HomePage() {
   const [activeSlide, setActiveSlide] = useState(0);
 
+  // Smooth section snapping - 1200ms for slower, smoother animation
+  useSmoothSnap(1200);
+
   // Auto-rotate slides
   useEffect(() => {
     const interval = setInterval(() => {
@@ -188,7 +192,7 @@ export function HomePage() {
           </div>
 
           {/* Dark overlay across entire image */}
-          <div className="absolute inset-0 hero-overlay" />
+          <div className="absolute inset-0 section-overlay" />
           
           {/* Left gradient for text area */}
           <div className="absolute inset-0 hero-text-backdrop" />
@@ -198,21 +202,21 @@ export function HomePage() {
         </div>
 
         {/* Hero Content */}
-        <div className="relative h-full container-custom">
+        <div className="relative h-full w-full px-6 md:px-10 lg:px-16 xl:px-20">
           <div className="flex flex-col justify-center h-full pt-20">
             <div className="max-w-3xl">
-              <p className="text-accent-400 font-bold tracking-[0.2em] uppercase text-sm mb-4 animate-fade-in hero-text">
+              <p className="text-white font-bold tracking-[0.2em] uppercase text-base mb-4 animate-fade-in hero-text-strong">
                 Your Complete Door, Hardware & Millwork Partner
               </p>
 
-              <h1 className="font-display text-5xl md:text-6xl lg:text-7xl font-bold text-white leading-[1.1] animate-fade-in-up hero-text-strong">
+              <h1 className="font-display text-5xl md:text-6xl lg:text-7xl font-bold text-white leading-[1.1] animate-fade-in-up hero-text-strong -ml-1 md:-ml-1.5">
                 Opening Doors for<br />
-                <span className="text-accent-400 whitespace-nowrap">Builders & Developers</span>
+                <span className="text-accent-400 whitespace-nowrap">Builders &amp; Developers</span>
               </h1>
               <p className="mt-3 text-white text-xl font-semibold animate-fade-in-up stagger-1 hero-text">Since 2019</p>
 
               <p className="mt-6 text-2xl lg:text-3xl text-white font-bold leading-relaxed animate-fade-in-up stagger-2 hero-text-strong">
-                Doors & millwork? Our problem. Not yours.
+                Doors &amp; millwork? Our problem. Not yours.
               </p>
               <p className="mt-2 text-lg lg:text-xl text-white/90 font-medium leading-relaxed max-w-lg animate-fade-in-up stagger-3 hero-text">
                 From blueprint to punch list — one call, completely handled.
@@ -228,13 +232,13 @@ export function HomePage() {
               </div>
 
               {/* Trust Indicators */}
-              <div className="mt-8 flex flex-wrap gap-6 animate-fade-in-up stagger-5 hero-text">
-                <div className="flex items-center gap-2 text-white font-medium text-sm">
-                  <Check className="w-4 h-4 text-accent-400" />
+              <div className="mt-8 flex flex-wrap gap-6 animate-fade-in-up stagger-5 hero-text-strong">
+                <div className="flex items-center gap-2 text-white font-bold text-sm">
+                  <Check className="w-5 h-5 text-accent-400 stroke-[3]" />
                   Nationwide Delivery
                 </div>
-                <div className="flex items-center gap-2 text-white font-medium text-sm">
-                  <Check className="w-4 h-4 text-accent-400" />
+                <div className="flex items-center gap-2 text-white font-bold text-sm">
+                  <Check className="w-5 h-5 text-accent-400 stroke-[3]" />
                   Professional Installation
                 </div>
               </div>
@@ -244,58 +248,56 @@ export function HomePage() {
       </section>
 
       {/* ============ INTRO SECTION ============ */}
-      <section className="relative h-screen flex items-center justify-center overflow-hidden snap-section">
-        {/* Red line divider at top - spacer between header and section */}
-        <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-accent-500 to-transparent" />
+      <section className="relative h-screen flex items-center overflow-hidden snap-section">
+        {/* Red line divider at top */}
+        <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-accent-500 to-transparent z-10" />
         
         {/* Background Image */}
         <div className="absolute inset-0">
           <img
             src="/images/backgrounds/intro.png"
             alt=""
-            className="w-full h-full object-cover object-[50%_32%]"
+            className="w-full h-full object-cover"
           />
-          {/* Dark overlay */}
-          <div className="absolute inset-0 bg-black/40" />
+          {/* Dark gradient from left edge */}
+          <div 
+            className="absolute inset-0"
+            style={{ 
+              background: 'linear-gradient(to right, rgba(0,0,0,0.45) 0%, rgba(0,0,0,0.35) 15%, rgba(0,0,0,0.25) 30%, rgba(0,0,0,0.20) 45%, rgba(0,0,0,0.10) 55%, transparent 65%)' 
+            }}
+          />
         </div>
         
-        <div className="container-custom relative h-full flex flex-col items-center justify-center">
-          {/* Text content - positioned for picture frame */}
-          <div className="text-center" style={{ marginTop: '-26vh' }}>
-            <h2 
-              className="font-display text-2xl md:text-3xl lg:text-4xl font-bold text-white leading-tight"
-              style={{ textShadow: '2px 2px 8px rgba(0,0,0,0.7)' }}
-            >
-              Your Complete Partner for<br />
-              <span className="text-accent-400">Doors, Hardware & Millwork</span>
+        {/* Text content - aligned with header logo */}
+        <div className="relative z-10 w-full">
+          <div className="px-6 md:px-10 lg:px-16 xl:px-20 -mt-[39px]" style={{ maxWidth: '42%' }}>
+            <h2 className="font-display text-3xl md:text-4xl lg:text-5xl font-bold text-white leading-tight hero-text-strong animate-fade-in-up stagger-1 whitespace-nowrap -ml-1 md:-ml-1.5">
+              Your Complete Partner for
             </h2>
             
-            <p 
-              className="mt-6 text-white/90 text-base leading-relaxed max-w-lg mx-auto"
-              style={{ textShadow: '1px 1px 4px rgba(0,0,0,0.7)' }}
-            >
-              S&G Builders Supply specializes in multifamily residential 
-              and commercial construction. Complete door packages from 
-              blueprint to punch list — one call, completely handled.
+            <h3 className="font-display text-4xl md:text-5xl lg:text-6xl font-bold text-accent-400 leading-tight mt-1 hero-text-strong animate-fade-in-up stagger-2 -ml-1 md:-ml-1.5">
+              Doors, Hardware<br />&amp; Millwork
+            </h3>
+            
+            <p className="mt-10 text-white text-xl leading-relaxed hero-text-strong animate-fade-in-up stagger-3">
+              Complete multifamily door and millwork packages — interior doors, 
+              frames, hardware, trim, and moldings. From blueprint to punch list, 
+              one call handles it all.
             </p>
-          </div>
-          
-          {/* Buttons - positioned for wainscoting boxes */}
-          <div className="absolute bottom-[21%] left-0 right-0 flex items-center justify-center">
-            <div className="flex items-center" style={{ gap: '12vw' }}>
+            
+            {/* Buttons */}
+            <div className="mt-20 flex items-center gap-8 animate-fade-in-up stagger-4">
               <Link 
                 to="/about" 
-                className="text-accent-400 font-semibold text-lg hover:text-accent-300 transition-colors"
-                style={{ textShadow: '1px 1px 4px rgba(0,0,0,0.7)' }}
+                className="text-accent-400 font-semibold text-lg hover:text-accent-300 transition-colors hero-text-strong"
               >
-                About Our Company
+                About Us →
               </Link>
               <Link 
                 to="/services" 
-                className="text-white font-semibold text-lg hover:text-white/80 transition-colors"
-                style={{ textShadow: '1px 1px 4px rgba(0,0,0,0.7)' }}
+                className="text-white font-semibold text-lg hover:text-white/80 transition-colors hero-text-strong"
               >
-                Our Services
+                Our Services →
               </Link>
             </div>
           </div>
@@ -374,7 +376,13 @@ export function HomePage() {
                   alt={project.name}
                   className="w-full h-full object-cover card-image transition-transform duration-700"
                 />
-                <div className="absolute inset-0 overlay-gradient" />
+                {/* Card overlay - adjust gradient here */}
+                <div 
+                  className="absolute inset-0" 
+                  style={{
+                    background: 'linear-gradient(to bottom, rgba(10,10,10,0) 0%, rgba(10,10,10,0.4) 50%, rgba(10,10,10,0.9) 100%)'
+                  }}
+                />
                 <div className="absolute inset-0 bg-accent-500/0 group-hover:bg-accent-500/20 transition-colors duration-300" />
                 
                 <div className="absolute bottom-0 left-0 right-0 p-6">
