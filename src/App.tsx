@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route, useParams } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, useParams, useLocation } from 'react-router-dom';
 import { Header } from './components/Header';
 import { Footer } from './components/Footer';
 import { HomePage } from './pages/HomePage';
@@ -14,6 +14,40 @@ function ProductPage() {
   return <UnderConstruction pageName={slug} />;
 }
 
+function AppContent() {
+  const location = useLocation();
+  const isHomePage = location.pathname === '/';
+
+  return (
+    <div className="min-h-screen flex flex-col bg-dark-950">
+      <Header />
+      <main className="flex-grow">
+        <Routes>
+          {/* Main Pages */}
+          <Route path="/" element={<HomePage />} />
+          <Route path="/about" element={<AboutPage />} />
+          <Route path="/services" element={<ServicesPage />} />
+          <Route path="/projects" element={<ProjectsPage />} />
+          <Route path="/contact" element={<ContactPage />} />
+
+          {/* Employee Portal */}
+          <Route
+            path="/employee-login"
+            element={<UnderConstruction pageName="employee-login" />}
+          />
+
+          {/* Product Pages - Under Construction */}
+          <Route path="/products/:slug" element={<ProductPage />} />
+
+          {/* 404 */}
+          <Route path="*" element={<UnderConstruction pageName="Page Not Found" />} />
+        </Routes>
+      </main>
+      {!isHomePage && <Footer />}
+    </div>
+  );
+}
+
 function App() {
   return (
     <Router
@@ -22,32 +56,7 @@ function App() {
         v7_relativeSplatPath: true,
       }}
     >
-      <div className="min-h-screen flex flex-col bg-dark-950">
-        <Header />
-        <main className="flex-grow">
-          <Routes>
-            {/* Main Pages */}
-            <Route path="/" element={<HomePage />} />
-            <Route path="/about" element={<AboutPage />} />
-            <Route path="/services" element={<ServicesPage />} />
-            <Route path="/projects" element={<ProjectsPage />} />
-            <Route path="/contact" element={<ContactPage />} />
-
-            {/* Employee Portal */}
-            <Route
-              path="/employee-login"
-              element={<UnderConstruction pageName="employee-login" />}
-            />
-
-            {/* Product Pages - Under Construction */}
-            <Route path="/products/:slug" element={<ProductPage />} />
-
-            {/* 404 */}
-            <Route path="*" element={<UnderConstruction pageName="Page Not Found" />} />
-          </Routes>
-        </main>
-        <Footer />
-      </div>
+      <AppContent />
     </Router>
   );
 }

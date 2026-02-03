@@ -276,3 +276,7 @@ a:focus-visible img {
 a:has(img):focus-visible {
   outline: none;
 }
+
+/* ============================================
+   SERVICES CAROUSEL
+   ============================================ */

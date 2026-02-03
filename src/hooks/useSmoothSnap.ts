@@ -2,7 +2,8 @@ import { useEffect, useRef } from 'react';
 
 export function useSmoothSnap(duration: number = 1000) {
   const isAnimating = useRef(false);
-  const targetSection = useRef<number | null>(null);
+  const cooldownTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const lastScrollTime = useRef(0);
 
   useEffect(() => {
     const sections = document.querySelectorAll('.snap-section');
@@ -22,7 +23,6 @@ export function useSmoothSnap(duration: number = 1000) {
       const startY = window.scrollY;
       const distance = targetY - startY;
       
-      // Don't animate if already there
       if (Math.abs(distance) < 10) {
         isAnimating.current = false;
         return;
@@ -46,38 +46,44 @@ export function useSmoothSnap(duration: number = 1000) {
         if (progress < 1) {
           requestAnimationFrame(animate);
         } else {
-          isAnimating.current = false;
-          targetSection.current = null;
+          cooldownTimer.current = setTimeout(() => {
+            isAnimating.current = false;
+          }, 200);
         }
       };
 
       requestAnimationFrame(animate);
     };
 
-    const handleWheel = (e: WheelEvent) => {
-      if (isAnimating.current) {
-        e.preventDefault();
-        return;
+    const findCurrentIndex = (sectionTops: number[], scrollY: number): number => {
+      let currentIndex = 0;
+      for (let i = 0; i < sectionTops.length; i++) {
+        if (scrollY >= sectionTops[i] - 100) {
+          currentIndex = i;
+        }
       }
+      return currentIndex;
+    };
 
+    const handleWheel = (e: WheelEvent) => {
       e.preventDefault();
+      
+      if (isAnimating.current) return;
+
+      const now = Date.now();
+      if (now - lastScrollTime.current < 150) return;
+      lastScrollTime.current = now;
+
+      if (Math.abs(e.deltaY) < 10) return;
       
       const sectionTops = getSectionTops();
       const currentY = window.scrollY;
       const direction = e.deltaY > 0 ? 1 : -1;
 
-      // Find current section index
-      let currentIndex = 0;
-      for (let i = 0; i < sectionTops.length; i++) {
-        if (currentY >= sectionTops[i] - 50) {
-          currentIndex = i;
-        }
-      }
-
-      // Calculate target section
+      const currentIndex = findCurrentIndex(sectionTops, currentY);
       const targetIndex = Math.max(0, Math.min(sectionTops.length - 1, currentIndex + direction));
       
-      if (targetIndex !== currentIndex || Math.abs(currentY - sectionTops[currentIndex]) > 50) {
+      if (targetIndex !== currentIndex) {
         smoothScrollTo(sectionTops[targetIndex]);
       }
     };
@@ -87,13 +93,7 @@ export function useSmoothSnap(duration: number = 1000) {
       
       const sectionTops = getSectionTops();
       const currentY = window.scrollY;
-      
-      let currentIndex = 0;
-      for (let i = 0; i < sectionTops.length; i++) {
-        if (currentY >= sectionTops[i] - 50) {
-          currentIndex = i;
-        }
-      }
+      const currentIndex = findCurrentIndex(sectionTops, currentY);
 
       if (e.key === 'ArrowDown' || e.key === 'PageDown' || e.key === ' ') {
         e.preventDefault();
@@ -118,6 +118,7 @@ export function useSmoothSnap(duration: number = 1000) {
     return () => {
       window.removeEventListener('wheel', handleWheel);
       window.removeEventListener('keydown', handleKeyDown);
+      if (cooldownTimer.current) clearTimeout(cooldownTimer.current);
     };
   }, [duration]);
 }

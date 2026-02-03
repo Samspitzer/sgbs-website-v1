@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, Phone, Check } from 'lucide-react';
+import { ArrowRight, Phone, Check, ChevronLeft, ChevronRight, MapPin, Mail } from 'lucide-react';
 import { services } from '../data/services';
 import { useSmoothSnap } from '../hooks/useSmoothSnap';
 
@@ -135,6 +135,245 @@ const projects: Project[] = [
     },
   },
 ];
+
+/* ============ SERVICE CAROUSEL COMPONENT ============ */
+function ServiceCarousel({ services: items }: { services: typeof services }) {
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
+  const total = items.length;
+
+  const goTo = (index: number) => {
+    setActiveIndex(((index % total) + total) % total);
+  };
+
+  // Auto-rotate every 4 seconds
+  useEffect(() => {
+    if (isPaused) return;
+    const timer = setInterval(() => {
+      setActiveIndex(prev => (prev + 1) % total);
+    }, 4000);
+    return () => clearInterval(timer);
+  }, [isPaused, total]);
+
+  const getOffset = (i: number) => {
+    let diff = i - activeIndex;
+    if (diff > total / 2) diff -= total;
+    if (diff < -total / 2) diff += total;
+    return diff;
+  };
+
+  return (
+    <div 
+      className="relative flex-1 min-h-0 flex flex-col"
+      onMouseEnter={() => setIsPaused(true)}
+      onMouseLeave={() => setIsPaused(false)}
+    >
+      {/* Left arrow */}
+      <button
+        onClick={() => goTo(activeIndex - 1)}
+        className="absolute left-6 md:left-10 lg:left-16 xl:left-20 top-1/2 -translate-y-1/2 z-30 w-12 h-12 flex items-center justify-center bg-dark-900/90 border border-dark-600 hover:border-accent-500 text-cream-100/70 hover:text-accent-400 transition-all rounded-full"
+      >
+        <ChevronLeft className="w-6 h-6" />
+      </button>
+
+      {/* Right arrow */}
+      <button
+        onClick={() => goTo(activeIndex + 1)}
+        className="absolute right-6 md:right-10 lg:right-16 xl:right-20 top-1/2 -translate-y-1/2 z-30 w-12 h-12 flex items-center justify-center bg-dark-900/90 border border-dark-600 hover:border-accent-500 text-cream-100/70 hover:text-accent-400 transition-all rounded-full"
+      >
+        <ChevronRight className="w-6 h-6" />
+      </button>
+
+      {/* Cards */}
+      <div className="flex-1 flex items-center justify-center relative">
+        {items.map((service, i) => {
+          const Icon = service.icon;
+          const offset = getOffset(i);
+          const isCenter = offset === 0;
+          const isVisible = Math.abs(offset) <= 2;
+
+          if (!isVisible) return null;
+
+          const scale = isCenter ? 1 : Math.abs(offset) === 1 ? 0.88 : 0.76;
+          const xShift = offset * 360;
+          const zIndex = 20 - Math.abs(offset) * 5;
+          const opacity = isCenter ? 1 : Math.abs(offset) === 1 ? 0.5 : 0.25;
+
+          return (
+            <div
+              key={service.id}
+              className="absolute transition-all duration-500 ease-in-out"
+              style={{
+                transform: `translateX(${xShift}px) scale(${scale})`,
+                zIndex,
+                opacity,
+                width: '360px',
+              }}
+              onClick={() => !isCenter && goTo(i)}
+            >
+              <div className={`bg-dark-900 border ${isCenter ? 'border-accent-500/60' : 'border-dark-700'} transition-colors duration-500 ${!isCenter ? 'cursor-pointer' : ''}`}>
+                <div className="h-44 bg-dark-800 flex items-center justify-center">
+                  <Icon className={`w-14 h-14 ${isCenter ? 'text-accent-400/40' : 'text-accent-400/20'}`} />
+                </div>
+                <div className="p-6">
+                  <div className={`w-11 h-11 flex items-center justify-center mb-4 transition-all duration-500 ${isCenter ? 'bg-accent-500 text-white' : 'bg-accent-500/10 text-accent-400'}`}>
+                    <Icon className="w-5 h-5" />
+                  </div>
+                  <h3 className="text-xl font-semibold text-cream-100 mb-2">
+                    {service.title}
+                  </h3>
+                  <p className="text-cream-100/60 text-sm leading-relaxed">
+                    {service.description}
+                  </p>
+                </div>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+
+      {/* Bottom bar: dots + All Services link */}
+      <div className="flex items-center justify-center gap-6 pb-6">
+        <div className="flex gap-2">
+          {items.map((_, i) => (
+            <button
+              key={i}
+              onClick={() => goTo(i)}
+              className={`h-2 rounded-full transition-all duration-300 ${i === activeIndex ? 'bg-accent-500 w-6' : 'bg-dark-600 hover:bg-dark-500 w-2'}`}
+            />
+          ))}
+        </div>
+        <Link to="/services" className="text-accent-400 hover:text-accent-300 font-semibold text-sm transition-colors flex items-center gap-1">
+          All Services <ArrowRight className="w-4 h-4" />
+        </Link>
+      </div>
+    </div>
+  );
+}
+
+/* ============ PROJECT CAROUSEL COMPONENT ============ */
+function ProjectCarousel({ projects: items }: { projects: Project[] }) {
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
+  const total = items.length;
+
+  const goTo = (index: number) => {
+    setActiveIndex(((index % total) + total) % total);
+  };
+
+  // Auto-rotate every 5 seconds
+  useEffect(() => {
+    if (isPaused) return;
+    const timer = setInterval(() => {
+      setActiveIndex(prev => (prev + 1) % total);
+    }, 5000);
+    return () => clearInterval(timer);
+  }, [isPaused, total]);
+
+  const getOffset = (i: number) => {
+    let diff = i - activeIndex;
+    if (diff > total / 2) diff -= total;
+    if (diff < -total / 2) diff += total;
+    return diff;
+  };
+
+  return (
+    <div 
+      className="relative flex-1 min-h-0 flex flex-col"
+      onMouseEnter={() => setIsPaused(true)}
+      onMouseLeave={() => setIsPaused(false)}
+    >
+      {/* Left arrow */}
+      <button
+        onClick={() => goTo(activeIndex - 1)}
+        className="absolute left-6 md:left-10 lg:left-16 xl:left-20 top-1/2 -translate-y-1/2 z-30 w-12 h-12 flex items-center justify-center bg-dark-900/90 border border-dark-600 hover:border-accent-500 text-cream-100/70 hover:text-accent-400 transition-all rounded-full"
+      >
+        <ChevronLeft className="w-6 h-6" />
+      </button>
+
+      {/* Right arrow */}
+      <button
+        onClick={() => goTo(activeIndex + 1)}
+        className="absolute right-6 md:right-10 lg:right-16 xl:right-20 top-1/2 -translate-y-1/2 z-30 w-12 h-12 flex items-center justify-center bg-dark-900/90 border border-dark-600 hover:border-accent-500 text-cream-100/70 hover:text-accent-400 transition-all rounded-full"
+      >
+        <ChevronRight className="w-6 h-6" />
+      </button>
+
+      {/* Cards */}
+      <div className="flex-1 flex items-center justify-center relative">
+        {items.map((project, i) => {
+          const offset = getOffset(i);
+          const isCenter = offset === 0;
+          const isVisible = Math.abs(offset) <= 2;
+
+          if (!isVisible) return null;
+
+          const scale = isCenter ? 1 : Math.abs(offset) === 1 ? 0.88 : 0.76;
+          const xShift = offset * 420;
+          const zIndex = 20 - Math.abs(offset) * 5;
+          const opacity = isCenter ? 1 : Math.abs(offset) === 1 ? 0.5 : 0.25;
+
+          return (
+            <div
+              key={project.id}
+              className="absolute transition-all duration-500 ease-in-out"
+              style={{
+                transform: `translateX(${xShift}px) scale(${scale})`,
+                zIndex,
+                opacity,
+                width: '420px',
+              }}
+              onClick={() => !isCenter && goTo(i)}
+            >
+              <div className={`relative overflow-hidden border ${isCenter ? 'border-accent-500/60' : 'border-dark-700'} transition-colors duration-500 ${!isCenter ? 'cursor-pointer' : ''}`}>
+                <div className="aspect-[4/3]">
+                  <img
+                    src={project.image}
+                    alt={project.name}
+                    className="w-full h-full object-cover"
+                  />
+                  <div 
+                    className="absolute inset-0" 
+                    style={{
+                      background: 'linear-gradient(to bottom, rgba(10,10,10,0) 0%, rgba(10,10,10,0.3) 50%, rgba(10,10,10,0.9) 100%)'
+                    }}
+                  />
+                </div>
+                <div className="absolute bottom-0 left-0 right-0 p-5">
+                  <p className="text-accent-400 text-sm font-semibold mb-1">
+                    {project.units}
+                  </p>
+                  <h3 className="text-xl font-semibold text-cream-100">
+                    {project.name}
+                  </h3>
+                  <p className="text-cream-100/70 text-sm mt-1">
+                    {project.location}
+                  </p>
+                </div>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+
+      {/* Bottom bar: dots + View All link */}
+      <div className="flex items-center justify-center gap-6 pb-6">
+        <div className="flex gap-2">
+          {items.map((_, i) => (
+            <button
+              key={i}
+              onClick={() => goTo(i)}
+              className={`h-2 rounded-full transition-all duration-300 ${i === activeIndex ? 'bg-accent-500 w-6' : 'bg-dark-600 hover:bg-dark-500 w-2'}`}
+            />
+          ))}
+        </div>
+        <Link to="/projects" className="text-accent-400 hover:text-accent-300 font-semibold text-sm transition-colors flex items-center gap-1">
+          View All Projects <ArrowRight className="w-4 h-4" />
+        </Link>
+      </div>
+    </div>
+  );
+}
 
 export function HomePage() {
   const [activeSlide, setActiveSlide] = useState(0);
@@ -305,128 +544,149 @@ export function HomePage() {
       </section>
 
       {/* ============ SERVICES SECTION ============ */}
-      <section className="min-h-screen flex items-center bg-dark-950 snap-section py-20">
-        <div className="container-custom">
-          <div className="text-center max-w-2xl mx-auto mb-16">
-            <div className="line-accent mx-auto mb-6" />
-            <h2 className="font-display text-3xl md:text-4xl lg:text-5xl font-bold text-cream-100">
-              Full-Service Solutions
-            </h2>
-            <p className="mt-4 text-cream-100/70 text-lg">
-              From initial estimating through final punch list, we handle every phase of your door and hardware scope.
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {services.map((service) => {
-              const Icon = service.icon;
-              return (
-                <div
-                  key={service.id}
-                  className="group p-8 bg-dark-900 border border-dark-700 hover:border-accent-500/50 transition-all duration-300"
-                >
-                  <div className="w-14 h-14 flex items-center justify-center bg-accent-500/10 text-accent-400 mb-6 group-hover:bg-accent-500 group-hover:text-white transition-all duration-300">
-                    <Icon className="w-7 h-7" />
-                  </div>
-                  <h3 className="text-xl font-semibold text-cream-100 mb-3">
-                    {service.title}
-                  </h3>
-                  <p className="text-cream-100/60 leading-relaxed">
-                    {service.description}
-                  </p>
-                </div>
-              );
-            })}
-          </div>
-
-          <div className="text-center mt-12">
-            <Link to="/services" className="btn-outline">
-              All Services <ArrowRight className="w-5 h-5" />
-            </Link>
-          </div>
+      <section className="h-screen flex flex-col justify-center bg-dark-950 snap-section overflow-hidden">
+        <div className="container-custom pt-20 mb-10">
+          <h2 className="font-display text-3xl md:text-4xl lg:text-5xl font-bold text-cream-100">
+            Full-Service Solutions
+          </h2>
+          <p className="mt-3 text-cream-100/70 text-lg max-w-xl">
+            From initial estimating through final punch list, we handle every phase of your door and hardware scope.
+          </p>
         </div>
+
+        {/* Center-focused carousel */}
+        <ServiceCarousel services={services} />
       </section>
 
       {/* ============ FEATURED PROJECTS SECTION ============ */}
-      <section className="min-h-screen flex items-center bg-dark-900 relative overflow-hidden snap-section py-20">
-        <div className="container-custom">
-          <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-12">
-            <div>
-              <div className="line-accent mb-6" />
-              <h2 className="font-display text-3xl md:text-4xl lg:text-5xl font-bold text-cream-100">
-                Featured Projects
-              </h2>
-              <p className="mt-4 text-cream-100/70 text-lg max-w-xl">
-                A sample of recent multifamily and commercial work across the Northeast and beyond.
-              </p>
-            </div>
-            <Link to="/projects" className="btn-outline shrink-0">
-              View All Projects <ArrowRight className="w-5 h-5" />
-            </Link>
-          </div>
-
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {projects.slice(0, 6).map((project) => (
-              <article
-                key={project.id}
-                className="group relative aspect-[4/3] overflow-hidden card-hover"
-              >
-                <img
-                  src={project.image}
-                  alt={project.name}
-                  className="w-full h-full object-cover card-image transition-transform duration-700"
-                />
-                {/* Card overlay - adjust gradient here */}
-                <div 
-                  className="absolute inset-0" 
-                  style={{
-                    background: 'linear-gradient(to bottom, rgba(10,10,10,0) 0%, rgba(10,10,10,0.4) 50%, rgba(10,10,10,0.9) 100%)'
-                  }}
-                />
-                <div className="absolute inset-0 bg-accent-500/0 group-hover:bg-accent-500/20 transition-colors duration-300" />
-                
-                <div className="absolute bottom-0 left-0 right-0 p-6">
-                  <p className="text-accent-400 text-sm font-semibold mb-1">
-                    {project.units}
-                  </p>
-                  <h3 className="text-xl font-semibold text-cream-100">
-                    {project.name}
-                  </h3>
-                  <p className="text-cream-100/70 text-sm mt-1">
-                    {project.location}
-                  </p>
-                </div>
-              </article>
-            ))}
-          </div>
+      <section className="h-screen flex flex-col justify-center bg-dark-900 relative overflow-hidden snap-section">
+        <div className="container-custom pt-20 mb-10">
+          <h2 className="font-display text-3xl md:text-4xl lg:text-5xl font-bold text-cream-100">
+            Featured Projects
+          </h2>
+          <p className="mt-3 text-cream-100/70 text-lg max-w-xl">
+            A sample of recent multifamily and commercial work across the Northeast and beyond.
+          </p>
         </div>
+
+        {/* Center-focused carousel */}
+        <ProjectCarousel projects={projects} />
       </section>
 
-      {/* ============ CTA SECTION ============ */}
-      <section className="min-h-screen flex items-center bg-dark-950 relative overflow-hidden snap-section">
+      {/* ============ CTA + FOOTER SECTION ============ */}
+      <section className="h-screen flex flex-col bg-dark-950 relative overflow-hidden snap-section">
         <div className="absolute inset-0 opacity-20">
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-accent-500/20 rounded-full blur-3xl" />
+          <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-accent-500/20 rounded-full blur-3xl" />
         </div>
         
-        <div className="container-custom relative">
-          <div className="max-w-3xl mx-auto text-center">
-            <h2 className="font-display text-3xl md:text-4xl lg:text-5xl font-bold text-cream-100">
-              Ready to Start Your Project?
-            </h2>
-            <p className="mt-6 text-cream-100/70 text-lg">
-              Get a quote for your next multifamily or commercial project. 
-              Our team is ready to help with estimating, coordination, and delivery.
-            </p>
-            <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
-              <Link to="/contact" className="btn-primary">
-                Request a Quote <ArrowRight className="w-5 h-5" />
-              </Link>
-              <a href="tel:845-923-2052" className="btn-outline">
-                <Phone className="w-5 h-5" /> Call 845-923-2052
-              </a>
+        {/* CTA area */}
+        <div className="flex-1 flex items-center relative">
+          <div className="container-custom">
+            <div className="max-w-3xl mx-auto text-center">
+              <h2 className="font-display text-3xl md:text-4xl lg:text-5xl font-bold text-cream-100">
+                Ready to Start Your Project?
+              </h2>
+              <p className="mt-6 text-cream-100/70 text-lg">
+                Get a quote for your next multifamily or commercial project. 
+                Our team is ready to help with estimating, coordination, and delivery.
+              </p>
+              <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
+                <Link to="/contact" className="btn-primary">
+                  Request a Quote <ArrowRight className="w-5 h-5" />
+                </Link>
+                <a href="tel:845-923-2052" className="btn-outline">
+                  <Phone className="w-5 h-5" /> Call 845-923-2052
+                </a>
+              </div>
             </div>
           </div>
         </div>
+
+        {/* Footer */}
+        <footer className="relative border-t border-dark-700">
+          <div className="container-custom py-10">
+            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-6">
+              {/* Company Info */}
+              <div className="lg:col-span-1">
+                <img
+                  src="/images/logo.png"
+                  alt="S&G Builders Supply Inc."
+                  className="h-10 w-auto mb-4"
+                />
+                <p className="text-cream-100/50 text-sm leading-relaxed max-w-xs">
+                  Your single source for doors, frames, hardware, and molding. 
+                  Serving contractors and developers since 1998.
+                </p>
+                <div className="flex items-center gap-3 mt-4">
+                  <a
+                    href="https://www.linkedin.com/in/sam-spitzer/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-8 h-8 flex items-center justify-center border border-dark-600 text-cream-100/50 hover:text-accent-400 hover:border-accent-500 transition-colors"
+                    aria-label="LinkedIn"
+                  >
+                    <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                    </svg>
+                  </a>
+                </div>
+              </div>
+
+              {/* Quick Links */}
+              <div>
+                <h4 className="text-cream-100 font-semibold tracking-wide uppercase text-xs mb-4">
+                  Quick Links
+                </h4>
+                <nav className="flex flex-col gap-2">
+                  <Link to="/about" className="text-cream-100/50 hover:text-accent-400 transition-colors text-sm">About Us</Link>
+                  <Link to="/services" className="text-cream-100/50 hover:text-accent-400 transition-colors text-sm">Services</Link>
+                  <Link to="/projects" className="text-cream-100/50 hover:text-accent-400 transition-colors text-sm">Projects</Link>
+                  <Link to="/contact" className="text-cream-100/50 hover:text-accent-400 transition-colors text-sm">Contact</Link>
+                </nav>
+              </div>
+
+              {/* Contact Info */}
+              <div>
+                <h4 className="text-cream-100 font-semibold tracking-wide uppercase text-xs mb-4">
+                  Contact
+                </h4>
+                <div className="flex flex-col gap-3">
+                  <a href="https://maps.google.com/?q=200+NY-17M+Harriman+NY" target="_blank" rel="noopener noreferrer" className="flex items-start gap-2 text-cream-100/50 hover:text-accent-400 transition-colors text-sm">
+                    <MapPin className="w-4 h-4 mt-0.5 flex-shrink-0" />
+                    <span>200 NY-17M, Harriman, NY 10926</span>
+                  </a>
+                  <a href="tel:845-923-2052" className="flex items-center gap-2 text-cream-100/50 hover:text-accent-400 transition-colors text-sm">
+                    <Phone className="w-4 h-4 flex-shrink-0" />
+                    <span>845-923-2052</span>
+                  </a>
+                  <a href="mailto:sales@sgbsny.com" className="flex items-center gap-2 text-cream-100/50 hover:text-accent-400 transition-colors text-sm">
+                    <Mail className="w-4 h-4 flex-shrink-0" />
+                    <span>sales@sgbsny.com</span>
+                  </a>
+                </div>
+              </div>
+
+              {/* Hours / Extra */}
+              <div>
+                <h4 className="text-cream-100 font-semibold tracking-wide uppercase text-xs mb-4">
+                  Hours
+                </h4>
+                <div className="flex flex-col gap-2 text-cream-100/50 text-sm">
+                  <p>Mon – Fri: 7:00 AM – 5:00 PM</p>
+                  <p>Sat – Sun: Closed</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Bottom copyright */}
+          <div className="border-t border-dark-800">
+            <div className="container-custom py-4 flex items-center justify-between text-xs text-cream-100/30">
+              <p>© {new Date().getFullYear()} S&G Builders Supply Inc. All rights reserved.</p>
+              <Link to="/employee-login" className="hover:text-accent-400 transition-colors">Employee Portal</Link>
+            </div>
+          </div>
+        </footer>
       </section>
     </div>
   );
