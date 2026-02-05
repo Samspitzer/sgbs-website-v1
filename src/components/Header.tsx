@@ -22,8 +22,7 @@ export function Header() {
   return (
     <>
       <header
-        className="fixed top-0 left-0 right-0 z-50 backdrop-blur-[2px] border-b border-white/10"
-        style={{ background: 'linear-gradient(to right, rgba(10,10,10,0.12) 0%, rgba(10,10,10,0.20) 35%, rgba(10,10,10,0.40) 65%, rgba(10,10,10,0.60) 100%)' }}
+        className="fixed top-0 left-0 right-0 z-50 backdrop-blur-[2px] border-b border-white/10 header-gradient"
       >
         <div className="w-full px-6 md:px-10 lg:px-16 xl:px-20">
           <div className="flex items-center justify-between h-20 lg:h-24">
@@ -36,8 +35,7 @@ export function Header() {
               <img
                 src="/images/logo.png"
                 alt="S&G Builders Supply Inc."
-                className="h-16 lg:h-[4.5rem] w-auto"
-                style={{ filter: 'drop-shadow(0 1px 6px rgba(255,255,255,0.4)) drop-shadow(0 0 12px rgba(255,255,255,0.2))' }}
+                className="h-16 lg:h-[4.5rem] w-auto logo-glow"
               />
             </Link>
 

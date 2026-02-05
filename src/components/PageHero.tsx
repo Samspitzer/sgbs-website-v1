@@ -16,7 +16,7 @@ export function PageHero({ title, subtitle, backgroundImage }: PageHeroProps) {
               alt=""
               className="w-full h-full object-cover"
             />
-            <div className="absolute inset-0 bg-dark-950/80" />
+            <div className="absolute inset-0 overlay-page-hero" />
           </div>
         </>
       ) : (

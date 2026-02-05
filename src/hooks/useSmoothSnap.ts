@@ -2,32 +2,46 @@ import { useEffect, useRef } from 'react';
 
 export function useSmoothSnap(duration: number = 1000) {
   const isAnimating = useRef(false);
-  const cooldownTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const lastScrollTime = useRef(0);
+  const targetSection = useRef(0);
+  const animationId = useRef<number | null>(null);
+  const lastWheelTime = useRef(0);
 
   useEffect(() => {
     const sections = document.querySelectorAll('.snap-section');
-    if (sections.length === 0) return;
+    const totalSections = sections.length;
+    if (totalSections === 0) return;
 
-    const getSectionTops = (): number[] => {
-      return Array.from(sections).map(section => {
-        const rect = section.getBoundingClientRect();
-        return rect.top + window.scrollY;
-      });
+    // Always calculate current section from scroll position
+    const getCurrentSection = (): number => {
+      return Math.round(window.scrollY / window.innerHeight);
     };
 
-    const smoothScrollTo = (targetY: number) => {
-      if (isAnimating.current) return;
+    const getTargetScroll = (index: number): number => {
+      return index * window.innerHeight;
+    };
+
+    const smoothScrollTo = (sectionIndex: number, interrupt: boolean = false) => {
+      // Clamp to valid range
+      const newTarget = Math.max(0, Math.min(totalSections - 1, sectionIndex));
       
-      isAnimating.current = true;
+      // If already animating to this target, ignore
+      if (isAnimating.current && targetSection.current === newTarget && !interrupt) return;
+      
+      // If animating and new target is different, cancel current animation
+      if (isAnimating.current && animationId.current) {
+        cancelAnimationFrame(animationId.current);
+        isAnimating.current = false;
+      }
+      
+      const targetY = getTargetScroll(newTarget);
       const startY = window.scrollY;
       const distance = targetY - startY;
       
-      if (Math.abs(distance) < 10) {
-        isAnimating.current = false;
-        return;
-      }
+      // Skip if already there
+      if (Math.abs(distance) < 5) return;
 
+      isAnimating.current = true;
+      targetSection.current = newTarget;
       let startTime: number | null = null;
 
       const easeInOutCubic = (t: number): number => {
@@ -44,81 +58,92 @@ export function useSmoothSnap(duration: number = 1000) {
         window.scrollTo(0, startY + distance * easeInOutCubic(progress));
 
         if (progress < 1) {
-          requestAnimationFrame(animate);
+          animationId.current = requestAnimationFrame(animate);
         } else {
-          cooldownTimer.current = setTimeout(() => {
-            isAnimating.current = false;
-          }, 200);
+          // Ensure we land exactly on target
+          window.scrollTo(0, targetY);
+          isAnimating.current = false;
+          animationId.current = null;
         }
       };
 
-      requestAnimationFrame(animate);
-    };
-
-    const findCurrentIndex = (sectionTops: number[], scrollY: number): number => {
-      let currentIndex = 0;
-      for (let i = 0; i < sectionTops.length; i++) {
-        if (scrollY >= sectionTops[i] - 100) {
-          currentIndex = i;
-        }
-      }
-      return currentIndex;
+      animationId.current = requestAnimationFrame(animate);
     };
 
     const handleWheel = (e: WheelEvent) => {
       e.preventDefault();
-      
-      if (isAnimating.current) return;
+      e.stopPropagation();
 
       const now = Date.now();
-      if (now - lastScrollTime.current < 150) return;
-      lastScrollTime.current = now;
+      if (now - lastWheelTime.current < 100) return;
+      lastWheelTime.current = now;
 
-      if (Math.abs(e.deltaY) < 10) return;
+      if (Math.abs(e.deltaY) < 5) return;
       
-      const sectionTops = getSectionTops();
-      const currentY = window.scrollY;
       const direction = e.deltaY > 0 ? 1 : -1;
-
-      const currentIndex = findCurrentIndex(sectionTops, currentY);
-      const targetIndex = Math.max(0, Math.min(sectionTops.length - 1, currentIndex + direction));
       
-      if (targetIndex !== currentIndex) {
-        smoothScrollTo(sectionTops[targetIndex]);
+      // If animating, redirect to new target
+      if (isAnimating.current) {
+        smoothScrollTo(targetSection.current + direction, true);
+      } else {
+        const currentSection = getCurrentSection();
+        smoothScrollTo(currentSection + direction);
       }
     };
 
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (isAnimating.current) return;
-      
-      const sectionTops = getSectionTops();
-      const currentY = window.scrollY;
-      const currentIndex = findCurrentIndex(sectionTops, currentY);
-
-      if (e.key === 'ArrowDown' || e.key === 'PageDown' || e.key === ' ') {
+      // Handle spacebar, arrows, page up/down
+      if (e.key === 'ArrowDown' || e.key === 'PageDown' || e.key === ' ' || 
+          e.key === 'ArrowUp' || e.key === 'PageUp' || e.key === 'Home' || e.key === 'End') {
+        
         e.preventDefault();
-        const targetIndex = Math.min(sectionTops.length - 1, currentIndex + 1);
-        smoothScrollTo(sectionTops[targetIndex]);
-      } else if (e.key === 'ArrowUp' || e.key === 'PageUp') {
-        e.preventDefault();
-        const targetIndex = Math.max(0, currentIndex - 1);
-        smoothScrollTo(sectionTops[targetIndex]);
-      } else if (e.key === 'Home') {
-        e.preventDefault();
-        smoothScrollTo(0);
-      } else if (e.key === 'End') {
-        e.preventDefault();
-        smoothScrollTo(sectionTops[sectionTops.length - 1]);
+        e.stopPropagation();
+        
+        let direction = 0;
+        let absoluteTarget: number | null = null;
+        
+        if (e.key === 'ArrowDown' || e.key === 'PageDown' || e.key === ' ') {
+          direction = 1;
+        } else if (e.key === 'ArrowUp' || e.key === 'PageUp') {
+          direction = -1;
+        } else if (e.key === 'Home') {
+          absoluteTarget = 0;
+        } else if (e.key === 'End') {
+          absoluteTarget = totalSections - 1;
+        }
+        
+        if (absoluteTarget !== null) {
+          smoothScrollTo(absoluteTarget, true);
+        } else if (direction !== 0) {
+          // If animating, redirect to new target (current target + direction)
+          if (isAnimating.current) {
+            smoothScrollTo(targetSection.current + direction, true);
+          } else {
+            const currentSection = getCurrentSection();
+            smoothScrollTo(currentSection + direction);
+          }
+        }
       }
     };
 
+    // Prevent default scroll behavior for spacebar at document level
+    const handleKeyDownCapture = (e: KeyboardEvent) => {
+      if (e.key === ' ' || e.key === 'PageDown' || e.key === 'PageUp' || 
+          e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+        e.preventDefault();
+      }
+    };
+
+    // Use capture phase for keydown to catch it before browser handles it
+    document.addEventListener('keydown', handleKeyDownCapture, { capture: true });
     window.addEventListener('wheel', handleWheel, { passive: false });
     window.addEventListener('keydown', handleKeyDown);
 
     return () => {
+      document.removeEventListener('keydown', handleKeyDownCapture, { capture: true });
       window.removeEventListener('wheel', handleWheel);
       window.removeEventListener('keydown', handleKeyDown);
-      if (cooldownTimer.current) clearTimeout(cooldownTimer.current);
+      if (animationId.current) cancelAnimationFrame(animationId.current);
     };
   }, [duration]);
 }

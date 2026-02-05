@@ -6,7 +6,8 @@ import {
   Wrench, 
   Key,
   Shield,
-  Users
+  Users,
+  ClipboardList
 } from 'lucide-react';
 
 export type Service = {
@@ -14,6 +15,7 @@ export type Service = {
   title: string;
   description: string;
   icon: typeof Calculator;
+  image: string;
 };
 
 export const services: Service[] = [
@@ -22,36 +24,49 @@ export const services: Service[] = [
     title: 'Estimating',
     description: 'Our experienced estimating staff reviews your plans and prepares accurate bids promptly. We work with architects and GCs to ensure complete scope coverage.',
     icon: Calculator,
+    image: '/images/services/estimating.jpg',
   },
   {
     id: 'field-measure',
     title: 'Field Measuring',
     description: 'Our skilled measuring team confirms all technical details on-site, preparing precise as-built drawings to ensure smooth installation.',
     icon: Ruler,
+    image: '/images/services/field-measuring.jpg',
   },
   {
     id: 'shop-drawings',
     title: 'Shop Drawings',
     description: 'Detailed submittals and shop drawings prepared by our technical team, coordinated with all project stakeholders for approval.',
     icon: FileText,
+    image: '/images/services/shop-drawings.jpg',
   },
   {
     id: 'deliveries',
     title: 'Supervised Deliveries',
     description: 'Deliveries are administered and monitored by our project site managers. Nationwide shipping with careful coordination.',
     icon: Truck,
+    image: '/images/services/deliveries.jpg',
   },
   {
     id: 'installation',
     title: 'Installation',
     description: 'Professional installation services throughout the tristate area. Our crews handle everything from doors to finish hardware.',
     icon: Wrench,
+    image: '/images/services/installation.jpg',
   },
   {
     id: 'keying',
     title: 'Keying & Hardware',
     description: 'Complete keying schedules and hardware coordination. Master key systems, access control integration, and final hardware sets.',
     icon: Key,
+    image: '/images/services/keying.jpg',
+  },
+  {
+    id: 'project-management',
+    title: 'Project Management',
+    description: 'Dedicated project managers coordinate every phase from submittals through punch list. On-site meetings and clear communication keep your door scope on schedule.',
+    icon: ClipboardList,
+    image: '/images/services/project-management.jpg',
   },
 ];
 

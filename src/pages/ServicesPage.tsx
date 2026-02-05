@@ -149,7 +149,7 @@ export function ServicesPage() {
                 alt="Project site"
                 className="w-full aspect-[4/5] object-cover"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-dark-950/60 to-transparent" />
+              <div className="absolute inset-0 image-overlay-fade" />
             </div>
           </div>
         </div>

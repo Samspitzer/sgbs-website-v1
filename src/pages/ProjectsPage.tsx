@@ -58,7 +58,7 @@ export function ProjectsPage() {
                 </div>
                 
                 {/* Overlay */}
-                <div className="absolute inset-0 bg-gradient-to-t from-dark-950 via-dark-950/40 to-transparent opacity-80 group-hover:opacity-90 transition-opacity duration-300" />
+                <div className="absolute inset-0 card-overlay-gallery opacity-80 group-hover:opacity-90 transition-opacity duration-300" />
                 
                 {/* Accent overlay on hover */}
                 <div className="absolute inset-0 bg-accent-500/0 group-hover:bg-accent-500/10 transition-colors duration-300" />
