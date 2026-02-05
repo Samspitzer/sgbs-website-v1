@@ -248,8 +248,8 @@ function ServiceCarousel({ services: items }: { services: typeof services }) {
       </div>
 
       {/* Bottom bar: All Services link */}
-      <div className="flex items-center justify-center" style={{ paddingBottom: '27px' }}>
-        <Link to="/services" className="text-white hover:text-accent-400 font-semibold transition-colors flex items-center gap-2" style={{ fontSize: '18px', textShadow: '0 1px 3px rgba(0,0,0,0.8)' }}>
+      <div className="flex items-center justify-center" style={{ paddingBottom: '50px' }}>
+        <Link to="/services" className="text-accent-400 hover:text-accent-300 font-semibold transition-colors flex items-center gap-2" style={{ fontSize: '18px', textShadow: '0 1px 3px rgba(0,0,0,0.8)' }}>
           All Services <ArrowRight className="w-5 h-5" />
         </Link>
       </div>
@@ -551,16 +551,16 @@ export function HomePage() {
           <div 
             className="absolute inset-0"
             style={{ 
-              background: 'linear-gradient(to bottom, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.15) 30%, rgba(0,0,0,0.1) 60%, rgba(0,0,0,0.3) 100%)' 
+              background: 'linear-gradient(to bottom, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.25) 30%, rgba(0,0,0,0.2) 60%, rgba(0,0,0,0.5) 100%)' 
             }}
           />
         </div>
-        <div className="relative z-10 w-full flex flex-col items-center text-center" style={{ paddingTop: '80px', marginBottom: '20px' }}>
-          <h2 className="font-display font-bold text-cream-100" style={{ fontSize: '48px', marginBottom: '8px', textShadow: '0 2px 10px rgba(0,0,0,0.8), 0 0 40px rgba(0,0,0,0.5)' }}>
+        <div className="relative z-10 w-full flex flex-col items-center text-center" style={{ paddingTop: '120px', marginBottom: '20px' }}>
+          <h2 className="font-display font-bold text-cream-100" style={{ fontSize: '48px', marginBottom: '12px', textShadow: '0 2px 10px rgba(0,0,0,0.8), 0 0 40px rgba(0,0,0,0.5)' }}>
             Full-Service Solutions
           </h2>
-          <p className="text-white font-semibold" style={{ fontSize: '18px', marginTop: '12px', maxWidth: '576px', textShadow: '0 1px 3px rgba(0,0,0,1), 0 2px 8px rgba(0,0,0,0.9)' }}>
-            From initial estimating through final punch list, we handle every phase of your door and hardware scope.
+          <p className="text-white font-semibold" style={{ fontSize: '18px', maxWidth: '620px', textShadow: '0 1px 3px rgba(0,0,0,1), 0 2px 8px rgba(0,0,0,0.9)' }}>
+            From initial estimating through final punch list, we handle <span className="text-accent-400">every phase</span> of your door, hardware, and millwork scope.
           </p>
         </div>
 
