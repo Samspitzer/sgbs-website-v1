@@ -62,12 +62,12 @@ export function Footer({
   };
 
   const inputClass = (field: string) =>
-    `w-full px-3 py-2.5 bg-dark-950/70 border text-white text-sm placeholder-cream-100/35 focus:outline-none transition-colors backdrop-blur-md ${
+    `w-full px-3 py-2 lg:py-2.5 bg-dark-950/70 border text-white text-sm placeholder-cream-100/35 focus:outline-none transition-colors backdrop-blur-md ${
       errors[field] ? 'border-red-500/60 focus:border-red-400' : 'border-white/15 focus:border-accent-500/60'
     }`;
 
   const sectionClass = isSnapSection
-    ? 'h-screen flex flex-col bg-dark-950 relative overflow-hidden snap-section'
+    ? 'min-h-screen lg:h-screen flex flex-col bg-dark-950 relative overflow-hidden snap-section'
     : 'relative overflow-hidden';
 
   return (
@@ -90,39 +90,39 @@ export function Footer({
         
         {/* Contact Section */}
         <div className="flex-1 flex items-center relative">
-          <div className="container-custom w-full py-12">
+          <div className="container-custom w-full pt-20 lg:pt-6 xl:pt-8 pb-6 lg:pb-4">
 
             {/* Centered heading */}
-            <div className="text-center mb-10">
-              <div className="line-accent mx-auto mb-4" />
+            <div className="text-center mb-6 lg:mb-6 xl:mb-8">
+              <div className="line-accent mx-auto mb-3 lg:mb-4" />
               <h2
-                className="font-display text-3xl md:text-4xl lg:text-5xl font-bold text-white"
+                className="font-display text-3xl md:text-4xl lg:text-[2.5rem] xl:text-5xl font-bold text-white"
                 style={{ textShadow: '0 2px 4px rgba(0,0,0,1), 0 0 8px rgba(0,0,0,0.8)' }}
               >
                 Let's Start Your Project
               </h2>
               <p
-                className="mt-3 text-white/80 text-base max-w-lg mx-auto font-medium"
+                className="mt-2 lg:mt-3 text-white/80 text-sm lg:text-base max-w-lg mx-auto font-medium"
                 style={{ textShadow: sharp }}
               >
                 Get a quote or ask a question — we respond within 24 hours.
               </p>
             </div>
 
-            <div className="grid lg:grid-cols-3 gap-6 lg:gap-8 max-w-5xl mx-auto items-start">
+            <div className="grid lg:grid-cols-3 gap-6 lg:gap-6 xl:gap-8 max-w-5xl mx-auto items-start">
 
               {/* Left — Contact Info + Map */}
               <div className="lg:col-span-1">
                   
-                <h3 className="text-base font-bold text-white mb-5 uppercase tracking-wider"
+                <h3 className="text-sm lg:text-base font-bold text-white mb-4 lg:mb-5 uppercase tracking-wider"
                   style={{ textShadow: sharp }}>
                   Contact Info
                 </h3>
 
-                <div className="space-y-4">
+                <div className="space-y-3 lg:space-y-4">
                   <a href="tel:845-923-2052" className="flex items-center gap-3 group">
-                    <div className="w-9 h-9 flex-shrink-0 flex items-center justify-center bg-accent-500/20 group-hover:bg-accent-500 transition-colors">
-                      <Phone className="w-4 h-4 text-accent-400 group-hover:text-white transition-colors" />
+                    <div className="w-8 h-8 lg:w-9 lg:h-9 flex-shrink-0 flex items-center justify-center bg-accent-500/20 group-hover:bg-accent-500 transition-colors">
+                      <Phone className="w-3.5 h-3.5 lg:w-4 lg:h-4 text-accent-400 group-hover:text-white transition-colors" />
                     </div>
                     <div>
                       <div className="text-white text-sm font-bold group-hover:text-accent-300 transition-colors" style={{ textShadow: sharp }}>845-923-2052</div>
@@ -131,8 +131,8 @@ export function Footer({
                   </a>
 
                   <a href="mailto:sales@sgbsny.com" className="flex items-center gap-3 group">
-                    <div className="w-9 h-9 flex-shrink-0 flex items-center justify-center bg-accent-500/20 group-hover:bg-accent-500 transition-colors">
-                      <Mail className="w-4 h-4 text-accent-400 group-hover:text-white transition-colors" />
+                    <div className="w-8 h-8 lg:w-9 lg:h-9 flex-shrink-0 flex items-center justify-center bg-accent-500/20 group-hover:bg-accent-500 transition-colors">
+                      <Mail className="w-3.5 h-3.5 lg:w-4 lg:h-4 text-accent-400 group-hover:text-white transition-colors" />
                     </div>
                     <div>
                       <div className="text-white text-sm font-bold group-hover:text-accent-300 transition-colors" style={{ textShadow: sharp }}>sales@sgbsny.com</div>
@@ -141,8 +141,8 @@ export function Footer({
                   </a>
 
                   <a href="https://maps.google.com/?q=200+NY-17M+Harriman+NY" target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 group">
-                    <div className="w-9 h-9 flex-shrink-0 flex items-center justify-center bg-accent-500/20 group-hover:bg-accent-500 transition-colors">
-                      <MapPin className="w-4 h-4 text-accent-400 group-hover:text-white transition-colors" />
+                    <div className="w-8 h-8 lg:w-9 lg:h-9 flex-shrink-0 flex items-center justify-center bg-accent-500/20 group-hover:bg-accent-500 transition-colors">
+                      <MapPin className="w-3.5 h-3.5 lg:w-4 lg:h-4 text-accent-400 group-hover:text-white transition-colors" />
                     </div>
                     <div>
                       <div className="text-white text-sm font-bold group-hover:text-accent-300 transition-colors" style={{ textShadow: sharp }}>200 NY-17M, Harriman, NY</div>
@@ -151,8 +151,8 @@ export function Footer({
                   </a>
 
                   <div className="flex items-center gap-3">
-                    <div className="w-9 h-9 flex-shrink-0 flex items-center justify-center bg-accent-500/20">
-                      <Clock className="w-4 h-4 text-accent-400" />
+                    <div className="w-8 h-8 lg:w-9 lg:h-9 flex-shrink-0 flex items-center justify-center bg-accent-500/20">
+                      <Clock className="w-3.5 h-3.5 lg:w-4 lg:h-4 text-accent-400" />
                     </div>
                     <div>
                       <div className="text-white text-sm font-bold" style={{ textShadow: sharp }}>Mon – Fri: 7AM – 5PM</div>
@@ -162,12 +162,12 @@ export function Footer({
                 </div>
 
                 {/* Map */}
-                <div className="mt-5 overflow-hidden relative border border-white/10">
+                <div className="mt-4 lg:mt-5 overflow-hidden relative border border-white/10">
                   <iframe
                     title="S&G Builders Supply Location"
                     src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2994.5!2d-74.1455!3d41.3025!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c2e3a5c1c1c1c1%3A0x1234567890abcdef!2s200%20NY-17M%2C%20Harriman%2C%20NY%2010926!5e0!3m2!1sen!2sus!4v1700000000000!5m2!1sen!2sus"
                     width="100%"
-                    height="140"
+                    height="120"
                     style={{ border: 0 }}
                     allowFullScreen
                     loading="lazy"
@@ -181,7 +181,7 @@ export function Footer({
                   href="https://wa.me/18459232428"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="mt-4 inline-flex items-center gap-2 text-xs text-accent-400 hover:text-accent-300 font-bold transition-colors"
+                  className="mt-3 lg:mt-4 inline-flex items-center gap-2 text-xs text-accent-400 hover:text-accent-300 font-bold transition-colors"
                   style={{ textShadow: sharpLight }}
                 >
                   Message us on WhatsApp <ArrowRight className="w-3.5 h-3.5" />
@@ -190,17 +190,17 @@ export function Footer({
 
               {/* Right — Form */}
               <div className="lg:col-span-2">
-                <h3 className="text-base font-bold text-white mb-1 uppercase tracking-wider"
+                <h3 className="text-sm lg:text-base font-bold text-white mb-1 uppercase tracking-wider"
                   style={{ textShadow: sharp }}>
                   Request a Quote
                 </h3>
-                <p className="text-white/60 text-xs mb-5 font-medium"
+                <p className="text-white/60 text-xs mb-4 lg:mb-5 font-medium"
                   style={{ textShadow: sharpLight }}>
                   Fill out the form and we'll get back to you within 24 hours.
                 </p>
 
                 {formState === 'success' ? (
-                  <div className="text-center py-14">
+                  <div className="text-center py-10 lg:py-14">
                     <div className="w-14 h-14 mx-auto bg-accent-500/15 rounded-full flex items-center justify-center mb-4">
                       <CheckCircle className="w-7 h-7 text-accent-400" />
                     </div>
@@ -208,8 +208,8 @@ export function Footer({
                     <p className="text-white/60 text-sm font-medium">We've received your message and will be in touch shortly.</p>
                   </div>
                 ) : (
-                  <form onSubmit={handleSubmit} className="space-y-3">
-                    <div className="grid sm:grid-cols-2 gap-3">
+                  <form onSubmit={handleSubmit} className="space-y-2.5 lg:space-y-3">
+                    <div className="grid sm:grid-cols-2 gap-2.5 lg:gap-3">
                       <div>
                         <label htmlFor="name" className="block text-xs font-bold text-white/80 mb-1" style={{ textShadow: sharpLight }}>Name *</label>
                         <input type="text" id="name" name="name" value={formData.name} onChange={handleChange} className={inputClass('name')} placeholder="Your name" />
@@ -221,7 +221,7 @@ export function Footer({
                       </div>
                     </div>
 
-                    <div className="grid sm:grid-cols-2 gap-3">
+                    <div className="grid sm:grid-cols-2 gap-2.5 lg:gap-3">
                       <div>
                         <label htmlFor="email" className="block text-xs font-bold text-white/80 mb-1" style={{ textShadow: sharpLight }}>Email *</label>
                         <input type="email" id="email" name="email" value={formData.email} onChange={handleChange} className={inputClass('email')} placeholder="email@company.com" />
@@ -236,14 +236,14 @@ export function Footer({
 
                     <div>
                       <label htmlFor="message" className="block text-xs font-bold text-white/80 mb-1" style={{ textShadow: sharpLight }}>Message *</label>
-                      <textarea id="message" name="message" rows={4} value={formData.message} onChange={handleChange} className={`${inputClass('message')} resize-none`} placeholder="Tell us about your project, timeline, and what you need..." />
+                      <textarea id="message" name="message" rows={3} value={formData.message} onChange={handleChange} className={`${inputClass('message')} resize-none`} placeholder="Tell us about your project, timeline, and what you need..." />
                       {errors.message && <p className="mt-1 text-red-400 text-xs font-semibold">{errors.message}</p>}
                     </div>
 
                     <button
                       type="submit"
                       disabled={formState === 'submitting'}
-                      className="w-full py-3 bg-accent-500 text-white text-sm font-bold tracking-wide uppercase hover:bg-accent-400 transition-colors disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                      className="w-full py-2.5 lg:py-3 bg-accent-500 text-white text-sm font-bold tracking-wide uppercase hover:bg-accent-400 transition-colors disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center gap-2"
                     >
                       {formState === 'submitting' ? (
                         <>
@@ -266,10 +266,10 @@ export function Footer({
         {/* Footer bar */}
         <footer className="relative">
           <div className="absolute inset-x-0 top-0 h-px" style={{ background: 'linear-gradient(to right, transparent, rgba(255,255,255,0.06) 30%, rgba(255,255,255,0.06) 70%, transparent)' }} />
-          <div className="container-custom py-4">
+          <div className="container-custom py-3 lg:py-4">
             <div className="flex flex-wrap items-center justify-between gap-4">
               <div className="flex items-center gap-4">
-                <img src="/images/logo.png" alt="S&G Builders Supply Inc." className="h-9 w-auto" />
+                <img src="/images/logo.png" alt="S&G Builders Supply Inc." className="h-8 lg:h-9 w-auto" />
                 <p className="text-white/60 text-xs hidden sm:block font-medium">
                   Your single source for doors, frames, hardware, and molding.
                 </p>
@@ -288,7 +288,7 @@ export function Footer({
           </div>
           <div className="relative">
             <div className="absolute inset-x-0 top-0 h-px" style={{ background: 'linear-gradient(to right, transparent, rgba(255,255,255,0.04) 30%, rgba(255,255,255,0.04) 70%, transparent)' }} />
-            <div className="container-custom py-3 flex items-center justify-between text-xs text-white/50 font-medium">
+            <div className="container-custom py-2 lg:py-3 flex items-center justify-between text-xs text-white/50 font-medium">
               <p>© {new Date().getFullYear()} S&G Builders Supply Inc. All rights reserved.</p>
               <Link to="/employee-login" className="hover:text-accent-400 transition-colors">Employee Portal</Link>
             </div>

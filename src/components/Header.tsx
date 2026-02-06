@@ -37,20 +37,17 @@ export function Header() {
   const scrollToContact = useCallback((e: React.MouseEvent) => {
     e.preventDefault();
     setIsMobileMenuOpen(false);
-    // Small delay so menu closes first on mobile
     setTimeout(() => {
       const el = document.getElementById('contact');
-      if (el) {
-        el.scrollIntoView({ behavior: 'smooth' });
-      }
+      if (el) el.scrollIntoView({ behavior: 'smooth' });
     }, 100);
   }, []);
 
   return (
     <>
       <header className="fixed top-0 left-0 right-0 z-50 backdrop-blur-[2px] border-b border-white/10 header-gradient">
-        <div className="w-full px-4 sm:px-6 md:px-10 lg:px-16 xl:px-20">
-          <div className="flex items-center justify-between h-16 sm:h-18 lg:h-24">
+        <div className="w-full px-4 sm:px-6 md:px-10 lg:px-8 xl:px-16 2xl:px-20">
+          <div className="flex items-center justify-between h-16 sm:h-18 lg:h-20 xl:h-24">
             {/* Logo */}
             <Link 
               to="/" 
@@ -60,12 +57,12 @@ export function Header() {
               <img
                 src="/images/logo.png"
                 alt="S&G Builders Supply Inc."
-                className="h-11 sm:h-14 lg:h-[4.5rem] w-auto logo-glow"
+                className="h-11 sm:h-14 lg:h-14 xl:h-[4.5rem] w-auto logo-glow"
               />
             </Link>
 
             {/* Desktop Navigation */}
-            <nav className="hidden lg:flex items-center gap-1">
+            <nav className="hidden lg:flex items-center gap-0.5 xl:gap-1">
               {navLinks.map((link) => {
                 const isContact = link.to === '#contact';
                 return isContact ? (
@@ -73,7 +70,7 @@ export function Header() {
                     key={link.label}
                     href="#contact"
                     onClick={scrollToContact}
-                    className="relative px-5 py-2 font-bold text-base tracking-wide uppercase transition-colors hero-text-strong text-white hover:text-accent-300"
+                    className="relative px-3 xl:px-5 py-2 font-bold text-sm xl:text-base tracking-wide uppercase transition-colors hero-text-strong text-white hover:text-accent-300"
                   >
                     {link.label}
                   </a>
@@ -81,7 +78,7 @@ export function Header() {
                   <Link
                     key={link.label}
                     to={link.to}
-                    className={`relative px-5 py-2 font-bold text-base tracking-wide uppercase transition-colors hero-text-strong ${
+                    className={`relative px-3 xl:px-5 py-2 font-bold text-sm xl:text-base tracking-wide uppercase transition-colors hero-text-strong ${
                       isActive(link.to)
                         ? 'text-accent-400'
                         : 'text-white hover:text-accent-300'
@@ -89,31 +86,31 @@ export function Header() {
                   >
                     {link.label}
                     {isActive(link.to) && (
-                      <span className="absolute bottom-0 left-5 right-5 h-0.5 bg-accent-500" />
+                      <span className="absolute bottom-0 left-3 right-3 xl:left-5 xl:right-5 h-0.5 bg-accent-500" />
                     )}
                   </Link>
                 );
               })}
 
-              <div className="w-px h-6 bg-white/20 mx-4" />
+              <div className="w-px h-5 xl:h-6 bg-white/20 mx-2 xl:mx-4" />
 
               <a
                 href="tel:845-923-2052"
-                className="flex items-center gap-2 text-white hover:text-accent-300 transition-colors mr-4 hero-text-strong"
+                className="flex items-center gap-2 text-white hover:text-accent-300 transition-colors mr-2 xl:mr-4 hero-text-strong"
               >
                 <Phone className="w-4 h-4" />
-                <span className="text-base font-bold">845-923-2052</span>
+                <span className="text-sm xl:text-base font-bold hidden xl:inline">845-923-2052</span>
               </a>
 
               <a
                 href="#contact"
                 onClick={scrollToContact}
-                className="px-6 py-2.5 bg-accent-500 text-white text-sm font-semibold tracking-wide uppercase hover:bg-accent-400 transition-all duration-300"
+                className="px-4 xl:px-6 py-2 xl:py-2.5 bg-accent-500 text-white text-xs xl:text-sm font-semibold tracking-wide uppercase hover:bg-accent-400 transition-all duration-300"
               >
                 Get a Quote
               </a>
 
-              <div className="ml-4 flex items-center gap-3 hero-text-strong">
+              <div className="ml-2 xl:ml-4 flex items-center gap-2 xl:gap-3 hero-text-strong">
                 <a
                   href="https://www.linkedin.com/company/sgbuilderssupply"
                   target="_blank"
@@ -121,7 +118,7 @@ export function Header() {
                   className="text-white hover:text-accent-300 transition-colors"
                   aria-label="LinkedIn"
                 >
-                  <Linkedin className="w-5 h-5" />
+                  <Linkedin className="w-4 h-4 xl:w-5 xl:h-5" />
                 </a>
                 <a
                   href="https://wa.me/18459232428"
@@ -130,7 +127,7 @@ export function Header() {
                   className="text-white hover:text-green-400 transition-colors"
                   aria-label="WhatsApp"
                 >
-                  <MessageCircle className="w-5 h-5" />
+                  <MessageCircle className="w-4 h-4 xl:w-5 xl:h-5" />
                 </a>
                 <Link
                   to="/employee-login"
@@ -138,12 +135,12 @@ export function Header() {
                   aria-label="Employee Login"
                   title="Employee Login"
                 >
-                  <LogIn className="w-5 h-5" />
+                  <LogIn className="w-4 h-4 xl:w-5 xl:h-5" />
                 </Link>
               </div>
             </nav>
 
-            {/* Mobile Right Side — Phone + Hamburger */}
+            {/* Mobile Right Side */}
             <div className="lg:hidden flex items-center gap-2 relative z-[60]">
               <a
                 href="tel:845-923-2052"
@@ -164,7 +161,7 @@ export function Header() {
         </div>
       </header>
 
-      {/* Mobile Menu — Full Screen Overlay */}
+      {/* Mobile Menu Overlay */}
       <div
         className={`lg:hidden fixed inset-0 z-50 transition-all duration-400 ${
           isMobileMenuOpen 
@@ -172,10 +169,7 @@ export function Header() {
             : 'opacity-0 pointer-events-none'
         }`}
       >
-        {/* Backdrop */}
         <div className="absolute inset-0 bg-dark-950/98 backdrop-blur-sm" />
-
-        {/* Menu Content */}
         <div className={`relative h-full flex flex-col items-center justify-center transition-transform duration-400 ${
           isMobileMenuOpen ? 'translate-y-0' : '-translate-y-8'
         }`}>
@@ -208,46 +202,23 @@ export function Header() {
             
             <div className="w-16 h-px bg-cream-100/20 my-2 sm:my-4" />
             
-            {/* Phone */}
-            <a
-              href="tel:845-923-2052"
-              className="flex items-center gap-3 text-cream-100/80 hover:text-white transition-colors"
-            >
+            <a href="tel:845-923-2052" className="flex items-center gap-3 text-cream-100/80 hover:text-white transition-colors">
               <Phone className="w-5 h-5" />
               <span className="text-lg font-semibold">845-923-2052</span>
             </a>
             
-            {/* CTA */}
-            <a
-              href="#contact"
-              onClick={scrollToContact}
-              className="mt-2 sm:mt-4 px-8 py-3.5 bg-accent-500 text-white font-semibold tracking-wide uppercase hover:bg-accent-400 transition-colors text-sm"
-            >
+            <a href="#contact" onClick={scrollToContact} className="mt-2 sm:mt-4 px-8 py-3.5 bg-accent-500 text-white font-semibold tracking-wide uppercase hover:bg-accent-400 transition-colors text-sm">
               Get a Quote
             </a>
 
-            {/* Social + Employee Links */}
             <div className="flex items-center gap-6 mt-4 sm:mt-6">
-              <a
-                href="https://www.linkedin.com/company/sgbuilderssupply"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-cream-100/60 hover:text-cream-100 transition-colors p-1"
-              >
+              <a href="https://www.linkedin.com/company/sgbuilderssupply" target="_blank" rel="noopener noreferrer" className="text-cream-100/60 hover:text-cream-100 transition-colors p-1">
                 <Linkedin className="w-6 h-6" />
               </a>
-              <a
-                href="https://wa.me/18459232428"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-cream-100/60 hover:text-green-400 transition-colors p-1"
-              >
+              <a href="https://wa.me/18459232428" target="_blank" rel="noopener noreferrer" className="text-cream-100/60 hover:text-green-400 transition-colors p-1">
                 <MessageCircle className="w-6 h-6" />
               </a>
-              <Link
-                to="/employee-login"
-                className="text-cream-100/60 hover:text-cream-100 transition-colors p-1"
-              >
+              <Link to="/employee-login" className="text-cream-100/60 hover:text-cream-100 transition-colors p-1">
                 <LogIn className="w-6 h-6" />
               </Link>
             </div>
