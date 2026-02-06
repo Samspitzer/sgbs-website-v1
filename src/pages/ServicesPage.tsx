@@ -1,47 +1,124 @@
-import { Link } from 'react-router-dom';
-import { ArrowRight, Phone } from 'lucide-react';
-import { PageHero } from '../components/PageHero';
+import { useState } from 'react';
 import { services, products } from '../data/services';
+import { ImageWithFallback, stripExtension } from '../components/ImageWithFallback';
 
 export function ServicesPage() {
+  const [hoveredService, setHoveredService] = useState<string | null>(null);
+
   return (
     <div className="bg-dark-950">
-      <PageHero
-        title="Our Services"
-        subtitle="Complete door and hardware solutions from estimating to installation"
-        backgroundImage="/images/projects/harrison-grand.jpg"
-      />
 
-      {/* ============ SERVICES GRID ============ */}
-      <section className="section-padding bg-dark-900 relative overflow-hidden noise-overlay">
+      {/* ============ HERO SECTION ============ */}
+      <section className="relative h-[60vh] min-h-[400px] overflow-hidden flex items-end">
+        <div className="absolute inset-0 overflow-hidden">
+          <img
+            src="/images/backgrounds/services.jpg"
+            alt=""
+            className="w-full h-full object-cover"
+            style={{ filter: 'blur(1px)', transform: 'scale(1.02)' }}
+          />
+          <div 
+            className="absolute inset-0"
+            style={{ background: 'linear-gradient(to bottom, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.3) 40%, rgba(0,0,0,0.6) 80%, rgba(0,0,0,0.85) 100%)' }}
+          />
+        </div>
+
+        <div className="relative z-10 container-custom pb-16">
+          <div className="max-w-3xl">
+            <p className="text-accent-400 font-bold tracking-[0.2em] uppercase text-sm mb-4 hero-text-strong">
+              What We Do
+            </p>
+            <h1 className="font-display text-4xl md:text-5xl lg:text-6xl font-bold text-cream-100 leading-[1.1]" style={{ textShadow: '0 2px 10px rgba(0,0,0,0.8), 0 0 40px rgba(0,0,0,0.5)' }}>
+              Full-Service Door &<br />Hardware Solutions
+            </h1>
+            <p className="mt-4 text-white/80 text-lg max-w-xl" style={{ textShadow: '0 1px 3px rgba(0,0,0,0.8)' }}>
+              From initial estimating through final punch list, we handle every phase of your door, hardware, and millwork scope.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* ============ SERVICES SECTION ============ */}
+      <section className="relative py-24 overflow-hidden">
+        {/* Subtle background */}
+        <div className="absolute inset-0 bg-dark-900" />
+        <div className="absolute inset-0 opacity-[0.03]">
+          <div className="absolute inset-0" style={{ backgroundImage: 'repeating-linear-gradient(90deg, rgba(255,255,255,0.03) 0px, transparent 1px, transparent 60px)', backgroundSize: '60px 60px' }} />
+        </div>
+
         <div className="container-custom relative">
           <div className="text-center max-w-2xl mx-auto mb-16">
-            <div className="line-accent mx-auto mb-6" />
             <h2 className="font-display text-3xl md:text-4xl font-bold text-cream-100">
-              Full-Service Support
+              Our Services
             </h2>
-            <p className="mt-4 text-cream-100/70 text-lg">
+            <p className="mt-4 text-cream-100/60 text-lg">
               We handle every phase of your door and hardware scope, from initial bid through final punch list.
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {services.map((service) => {
+          {/* Services - alternating layout */}
+          <div className="space-y-6">
+            {services.map((service, index) => {
               const Icon = service.icon;
+              const isHovered = hoveredService === service.id;
+              const isEven = index % 2 === 0;
+
               return (
                 <div
                   key={service.id}
-                  className="group p-8 bg-dark-800 border border-dark-700 hover:border-accent-500/50 transition-all duration-300"
+                  className="group relative overflow-hidden transition-all duration-500"
+                  style={{ 
+                    borderRadius: '8px',
+                    border: '1px solid rgba(255,255,255,0.06)',
+                  }}
+                  onMouseEnter={() => setHoveredService(service.id)}
+                  onMouseLeave={() => setHoveredService(null)}
                 >
-                  <div className="w-16 h-16 flex items-center justify-center bg-accent-500/10 text-accent-400 mb-6 group-hover:bg-accent-500 group-hover:text-white transition-all duration-300">
-                    <Icon className="w-8 h-8" />
+                  <div className={`flex ${isEven ? 'flex-row' : 'flex-row-reverse'} min-h-[220px]`}>
+                    {/* Image side */}
+                    <div className="w-[40%] relative overflow-hidden">
+                      <ImageWithFallback 
+                        basePath={stripExtension(service.image)}
+                        alt={service.title}
+                        className="absolute inset-0 w-full h-full object-cover transition-transform duration-700"
+                        style={{ 
+                          transform: isHovered ? 'scale(1.08)' : 'scale(1)',
+                          objectPosition: 'center 30%',
+                        }}
+                      />
+                      <div 
+                        className="absolute inset-0 transition-opacity duration-500"
+                        style={{ 
+                          background: isEven 
+                            ? 'linear-gradient(to right, transparent 60%, rgba(20,20,20,1) 100%)' 
+                            : 'linear-gradient(to left, transparent 60%, rgba(20,20,20,1) 100%)',
+                          opacity: 1,
+                        }}
+                      />
+                    </div>
+
+                    {/* Content side */}
+                    <div className="w-[60%] p-10 flex flex-col justify-center relative" style={{ background: 'rgba(20,20,20,0.95)' }}>
+                      <div className="flex items-center gap-4 mb-4">
+                        <div 
+                          className="flex-shrink-0 flex items-center justify-center transition-all duration-500"
+                          style={{ 
+                            width: '48px', 
+                            height: '48px',
+                            background: isHovered ? 'rgba(139, 26, 26, 1)' : 'rgba(139, 26, 26, 0.1)',
+                          }}
+                        >
+                          <Icon className={`w-5 h-5 transition-colors duration-500 ${isHovered ? 'text-white' : 'text-accent-400'}`} />
+                        </div>
+                        <h3 className="font-display text-2xl font-bold text-cream-100">
+                          {service.title}
+                        </h3>
+                      </div>
+                      <p className="text-cream-100/60 text-lg leading-relaxed max-w-lg">
+                        {service.description}
+                      </p>
+                    </div>
                   </div>
-                  <h3 className="text-2xl font-semibold text-cream-100 mb-4">
-                    {service.title}
-                  </h3>
-                  <p className="text-cream-100/60 leading-relaxed text-lg">
-                    {service.description}
-                  </p>
                 </div>
               );
             })}
@@ -50,33 +127,56 @@ export function ServicesPage() {
       </section>
 
       {/* ============ PRODUCTS SECTION ============ */}
-      <section className="section-padding bg-dark-950">
-        <div className="container-custom">
+      <section className="relative py-24 overflow-hidden">
+        <div className="absolute inset-0 overflow-hidden">
+          <img
+            src="/images/backgrounds/cta.jpeg"
+            alt=""
+            className="w-full h-full object-cover"
+            style={{ filter: 'blur(3px)', transform: 'scale(1.05)' }}
+          />
+          <div 
+            className="absolute inset-0"
+            style={{ background: 'linear-gradient(to bottom, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.7) 50%, rgba(0,0,0,0.8) 100%)' }}
+          />
+        </div>
+
+        <div className="container-custom relative">
           <div className="text-center max-w-2xl mx-auto mb-16">
-            <div className="line-accent mx-auto mb-6" />
-            <h2 className="font-display text-3xl md:text-4xl font-bold text-cream-100">
+            <h2 className="font-display text-3xl md:text-4xl font-bold text-cream-100" style={{ textShadow: '0 2px 10px rgba(0,0,0,0.8)' }}>
               Product Categories
             </h2>
-            <p className="mt-4 text-cream-100/70 text-lg">
+            <p className="mt-4 text-cream-100/60 text-lg" style={{ textShadow: '0 1px 3px rgba(0,0,0,0.8)' }}>
               We supply a complete range of doors, frames, hardware, and millwork for residential and commercial projects.
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
             {products.map((product) => (
               <div
                 key={product.id}
-                className="group relative p-8 bg-dark-900 border border-dark-700 hover:border-accent-500/50 transition-all duration-300"
+                className="group relative overflow-hidden transition-all duration-300 hover:-translate-y-1"
+                style={{ 
+                  borderRadius: '8px',
+                  border: '1px solid rgba(255,255,255,0.08)',
+                  background: 'rgba(10,10,10,0.7)',
+                  backdropFilter: 'blur(10px)',
+                }}
               >
-                <div className="w-12 h-12 flex items-center justify-center bg-accent-500/10 text-accent-400 mb-6">
-                  <div className="w-3 h-3 bg-accent-500" />
+                <div className="p-8">
+                  <div 
+                    className="w-10 h-10 flex items-center justify-center mb-5 transition-all duration-300 group-hover:bg-accent-500"
+                    style={{ background: 'rgba(139, 26, 26, 0.15)' }}
+                  >
+                    <div className="w-2.5 h-2.5 bg-accent-400 group-hover:bg-white transition-colors duration-300" />
+                  </div>
+                  <h3 className="text-xl font-semibold text-cream-100 mb-3">
+                    {product.title}
+                  </h3>
+                  <p className="text-cream-100/50 leading-relaxed text-sm">
+                    {product.description}
+                  </p>
                 </div>
-                <h3 className="text-xl font-semibold text-cream-100 mb-3">
-                  {product.title}
-                </h3>
-                <p className="text-cream-100/60 leading-relaxed">
-                  {product.description}
-                </p>
               </div>
             ))}
           </div>
@@ -84,99 +184,86 @@ export function ServicesPage() {
       </section>
 
       {/* ============ PROCESS SECTION ============ */}
-      <section className="section-padding bg-dark-900">
+      <section className="relative py-24 bg-dark-900 overflow-hidden">
         <div className="container-custom">
-          <div className="grid lg:grid-cols-2 gap-16 items-center">
-            <div>
-              <div className="line-accent mb-6" />
-              <h2 className="font-display text-3xl md:text-4xl font-bold text-cream-100">
-                Our Process
-              </h2>
-              <p className="mt-6 text-cream-100/70 text-lg leading-relaxed">
-                We've refined our process over 25+ years to ensure smooth coordination 
-                and on-time delivery for every project.
-              </p>
+          <div className="text-center max-w-2xl mx-auto mb-16">
+            <h2 className="font-display text-3xl md:text-4xl font-bold text-cream-100">
+              Our Process
+            </h2>
+            <p className="mt-4 text-cream-100/60 text-lg">
+              A streamlined approach refined over years of experience to keep your project on schedule and on budget.
+            </p>
+          </div>
 
-              <div className="mt-10 space-y-8">
-                {[
-                  {
-                    step: '01',
-                    title: 'Estimating & Bidding',
-                    description: 'We review your plans and prepare accurate, competitive bids with detailed breakdowns.',
-                  },
-                  {
-                    step: '02',
-                    title: 'Field Measurement',
-                    description: 'Our team measures on-site to confirm all dimensions and technical details.',
-                  },
-                  {
-                    step: '03',
-                    title: 'Shop Drawings & Submittals',
-                    description: 'Detailed drawings prepared and coordinated with architects and GCs for approval.',
-                  },
-                  {
-                    step: '04',
-                    title: 'Manufacturing & Procurement',
-                    description: 'We coordinate with manufacturers to ensure materials arrive on your schedule.',
-                  },
-                  {
-                    step: '05',
-                    title: 'Delivery & Installation',
-                    description: 'Supervised deliveries and professional installation in the tristate area.',
-                  },
-                  {
-                    step: '06',
-                    title: 'Punch List & Closeout',
-                    description: 'We stay on the job until every door and piece of hardware is perfect.',
-                  },
-                ].map((item) => (
-                  <div key={item.step} className="flex gap-6">
-                    <div className="flex-shrink-0 w-12 h-12 flex items-center justify-center border border-accent-500 text-accent-400 font-display font-bold">
-                      {item.step}
-                    </div>
-                    <div>
-                      <h3 className="text-lg font-semibold text-cream-100">{item.title}</h3>
-                      <p className="mt-1 text-cream-100/60">{item.description}</p>
-                    </div>
+          <div className="grid lg:grid-cols-2 gap-16 items-start">
+            {/* Steps */}
+            <div className="space-y-0">
+              {[
+                {
+                  step: '01',
+                  title: 'Estimating & Bidding',
+                  description: 'We review your plans and prepare accurate, competitive bids with detailed breakdowns.',
+                },
+                {
+                  step: '02',
+                  title: 'Field Measurement',
+                  description: 'Our team measures on-site to confirm all dimensions and technical details.',
+                },
+                {
+                  step: '03',
+                  title: 'Shop Drawings & Submittals',
+                  description: 'Detailed drawings prepared and coordinated with architects and GCs for approval.',
+                },
+                {
+                  step: '04',
+                  title: 'Manufacturing & Procurement',
+                  description: 'We coordinate with manufacturers to ensure materials arrive on your schedule.',
+                },
+                {
+                  step: '05',
+                  title: 'Delivery & Installation',
+                  description: 'Supervised deliveries and professional installation in the tristate area.',
+                },
+                {
+                  step: '06',
+                  title: 'Punch List & Closeout',
+                  description: 'We stay on the job until every door and piece of hardware is perfect.',
+                },
+              ].map((item, index) => (
+                <div key={item.step} className="group flex gap-6 relative">
+                  {/* Vertical line connector */}
+                  {index < 5 && (
+                    <div className="absolute left-[23px] top-[48px] w-px h-[calc(100%-48px)] bg-dark-700" />
+                  )}
+                  
+                  <div className="flex-shrink-0 w-12 h-12 flex items-center justify-center border border-accent-500/50 text-accent-400 font-display font-bold text-sm relative z-10 bg-dark-900 group-hover:bg-accent-500 group-hover:text-white group-hover:border-accent-500 transition-all duration-300">
+                    {item.step}
                   </div>
-                ))}
+                  <div className="pb-10">
+                    <h3 className="text-lg font-semibold text-cream-100 group-hover:text-accent-400 transition-colors duration-300">{item.title}</h3>
+                    <p className="mt-2 text-cream-100/50 leading-relaxed">{item.description}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* Image */}
+            <div className="sticky top-32">
+              <div className="overflow-hidden" style={{ borderRadius: '8px' }}>
+                <img
+                  src="/images/projects/jersey-walk.jpg"
+                  alt="Project site"
+                  className="w-full aspect-[4/5] object-cover"
+                />
+                <div className="absolute inset-0" style={{ background: 'linear-gradient(to top, rgba(10,10,10,0.6) 0%, transparent 40%)' }} />
               </div>
             </div>
-
-            <div className="relative">
-              <img
-                src="/images/projects/jersey-walk.jpg"
-                alt="Project site"
-                className="w-full aspect-[4/5] object-cover"
-              />
-              <div className="absolute inset-0 image-overlay-fade" />
-            </div>
           </div>
         </div>
       </section>
 
-      {/* ============ CTA ============ */}
-      <section className="section-padding bg-dark-950 relative overflow-hidden">
-        <div className="absolute inset-0 opacity-20">
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-accent-500/20 rounded-full blur-3xl" />
-        </div>
-        <div className="container-custom relative text-center">
-          <h2 className="font-display text-3xl md:text-4xl font-bold text-cream-100">
-            Need a Quote for Your Project?
-          </h2>
-          <p className="mt-4 text-cream-100/70 text-lg max-w-xl mx-auto">
-            Send us your plans and we'll prepare a detailed estimate. Our team responds quickly.
-          </p>
-          <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
-            <Link to="/contact" className="btn-primary">
-              Request a Quote <ArrowRight className="w-5 h-5" />
-            </Link>
-            <a href="tel:845-923-2052" className="btn-outline">
-              <Phone className="w-5 h-5" /> Call 845-923-2052
-            </a>
-          </div>
-        </div>
-      </section>
     </div>
   );
 }
+
+export default ServicesPage;
