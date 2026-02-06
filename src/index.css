@@ -60,6 +60,10 @@ body {
   animation: heroZoomPan 8s ease-out forwards;
 }
 
+.hero-zoom-slow {
+  animation: heroZoomPan 6s ease-in-out forwards;
+}
+
 @keyframes heroZoomPan {
   0% { 
     transform: scale(var(--zoom-from, 1.1)); 
@@ -162,13 +166,15 @@ body {
 
 /* Left-to-right gradient over intro background image */
 .intro-text-backdrop {
-  background: linear-gradient(
-    to right,
-    rgba(0, 0, 0, 0.35) 0%,
-    rgba(0, 0, 0, 0.22) 20%,
-    rgba(0, 0, 0, 0.10) 40%,
-    transparent 55%
-  );
+  background: 
+    linear-gradient(
+      to right,
+      rgba(0, 0, 0, 0.55) 0%,
+      rgba(0, 0, 0, 0.40) 20%,
+      rgba(0, 0, 0, 0.25) 40%,
+      rgba(0, 0, 0, 0.15) 55%,
+      rgba(0, 0, 0, 0.12) 100%
+    );
 }
 
 /* --- CARD OVERLAYS --- */
