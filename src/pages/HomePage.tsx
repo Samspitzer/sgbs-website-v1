@@ -360,9 +360,9 @@ export function HomePage() {
                 From blueprint to punch list — one call, completely handled.
               </p>
               <div className="mt-10 flex flex-col sm:flex-row gap-4 animate-fade-in-up stagger-4">
-                <Link to="/contact" className="btn-primary">
+                <a href="#contact" onClick={(e) => { e.preventDefault(); document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' }); }} className="btn-primary">
                   Get a Quote <ArrowRight className="w-5 h-5" />
-                </Link>
+                </a>
                 <Link to="/projects" className="btn-outline">
                   View Projects
                 </Link>
@@ -470,7 +470,7 @@ export function HomePage() {
       </section>
 
       {/* ============ CTA + FOOTER SECTION ============ */}
-      <Footer isHomePage />
+      <Footer isSnapSection />
     </div>
   );
 }
