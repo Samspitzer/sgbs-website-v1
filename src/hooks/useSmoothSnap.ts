@@ -1,18 +1,22 @@
 import { useEffect, useRef } from 'react';
 
+/**
+ * Smooth snap scrolling between .snap-section elements.
+ * Disabled on mobile (<1024px) where content needs natural scroll.
+ */
 export function useSmoothSnap(duration: number = 1000) {
   const isAnimating = useRef(false);
   const targetSection = useRef(0);
   const animationId = useRef<number | null>(null);
-
-  // Wheel gesture detection:
-  // A single mouse wheel "flick" fires dozens of wheel events over ~200-500ms.
-  // We lock on the FIRST event and ignore everything until the gesture ends
-  // (no wheel events for 800ms = gesture is done).
   const wheelLocked = useRef(false);
   const wheelUnlockTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const touchStartY = useRef(0);
+  const touchLocked = useRef(false);
 
   useEffect(() => {
+    // Disable snap scrolling on screens < 1024px
+    const isDesktop = () => window.innerWidth >= 1024;
+    
     const sections = document.querySelectorAll('.snap-section');
     const totalSections = sections.length;
     if (totalSections === 0) return;
@@ -71,11 +75,11 @@ export function useSmoothSnap(duration: number = 1000) {
     };
 
     const handleWheel = (e: WheelEvent) => {
+      if (!isDesktop()) return; // Let mobile scroll naturally
+
       e.preventDefault();
       e.stopPropagation();
 
-      // Every wheel event resets the unlock timer.
-      // The lock only releases after 800ms of silence = gesture finished.
       if (wheelUnlockTimer.current) {
         clearTimeout(wheelUnlockTimer.current);
       }
@@ -83,21 +87,41 @@ export function useSmoothSnap(duration: number = 1000) {
         wheelLocked.current = false;
       }, 800);
 
-      // If already locked, swallow — one gesture = one section move
       if (wheelLocked.current) return;
-
-      // Ignore tiny jitter
       if (Math.abs(e.deltaY) < 5) return;
 
-      // Lock immediately — this is the first event of a new gesture
       wheelLocked.current = true;
-
       const direction = e.deltaY > 0 ? 1 : -1;
       const currentSection = getCurrentSection();
       smoothScrollTo(currentSection + direction);
     };
 
+    const handleTouchStart = (e: TouchEvent) => {
+      if (!isDesktop()) return;
+      touchStartY.current = e.touches[0].clientY;
+      touchLocked.current = false;
+    };
+
+    const handleTouchMove = (e: TouchEvent) => {
+      if (!isDesktop()) return;
+      if (touchLocked.current) {
+        e.preventDefault();
+        return;
+      }
+
+      const deltaY = touchStartY.current - e.touches[0].clientY;
+      if (Math.abs(deltaY) > 30) {
+        e.preventDefault();
+        touchLocked.current = true;
+        const direction = deltaY > 0 ? 1 : -1;
+        const currentSection = getCurrentSection();
+        smoothScrollTo(currentSection + direction);
+      }
+    };
+
     const handleKeyDown = (e: KeyboardEvent) => {
+      if (!isDesktop()) return;
+
       if (e.key === 'ArrowDown' || e.key === 'PageDown' || e.key === ' ' ||
           e.key === 'ArrowUp' || e.key === 'PageUp' || e.key === 'Home' || e.key === 'End') {
 
@@ -131,6 +155,7 @@ export function useSmoothSnap(duration: number = 1000) {
     };
 
     const handleKeyDownCapture = (e: KeyboardEvent) => {
+      if (!isDesktop()) return;
       if (e.key === ' ' || e.key === 'PageDown' || e.key === 'PageUp' ||
           e.key === 'ArrowDown' || e.key === 'ArrowUp') {
         e.preventDefault();
@@ -139,11 +164,15 @@ export function useSmoothSnap(duration: number = 1000) {
 
     document.addEventListener('keydown', handleKeyDownCapture, { capture: true });
     window.addEventListener('wheel', handleWheel, { passive: false });
+    window.addEventListener('touchstart', handleTouchStart, { passive: true });
+    window.addEventListener('touchmove', handleTouchMove, { passive: false });
     window.addEventListener('keydown', handleKeyDown);
 
     return () => {
       document.removeEventListener('keydown', handleKeyDownCapture, { capture: true });
       window.removeEventListener('wheel', handleWheel);
+      window.removeEventListener('touchstart', handleTouchStart);
+      window.removeEventListener('touchmove', handleTouchMove);
       window.removeEventListener('keydown', handleKeyDown);
       if (animationId.current) cancelAnimationFrame(animationId.current);
       if (wheelUnlockTimer.current) clearTimeout(wheelUnlockTimer.current);
