@@ -52,11 +52,11 @@ export function ServicesPage() {
             <p className="text-accent-400 font-bold tracking-[0.2em] uppercase text-sm mb-4 animate-fade-in hero-text-strong">
               What We Do
             </p>
-            <h1 className="font-display text-[2.25rem] sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white leading-[1.1] animate-fade-in-up hero-text-strong">
+            <h1 className="font-display text-[2.25rem] sm:text-5xl md:text-6xl lg:text-5xl xl:text-6xl 2xl:text-7xl font-bold text-white leading-[1.1] animate-fade-in-up hero-text-strong">
               Full-Service Door &amp;<br />
               <span className="text-accent-400">Hardware Solutions</span>
             </h1>
-            <p className="mt-6 text-base lg:text-xl text-white/90 font-medium leading-relaxed max-w-xl animate-fade-in-up stagger-2 hero-text">
+            <p className="mt-6 text-base lg:text-lg xl:text-xl text-white/90 font-medium leading-relaxed max-w-xl animate-fade-in-up stagger-2 hero-text">
               From initial estimating through final punch list, we handle every phase of your door, hardware, and millwork scope.
             </p>
             <div className="mt-8 lg:mt-10 flex flex-col sm:flex-row gap-3 sm:gap-4 animate-fade-in-up stagger-3">
@@ -70,8 +70,9 @@ export function ServicesPage() {
       </section>
 
       {/* ============ SERVICES SHOWCASE ============ */}
+      {/* Use pt to clear header instead of items-center which ignores header */}
       <section
-        className="min-h-screen lg:h-screen flex items-center snap-section relative overflow-hidden"
+        className="min-h-screen lg:h-screen snap-section relative overflow-hidden"
         onMouseEnter={() => setIsPaused(true)}
         onMouseLeave={() => setIsPaused(false)}
       >
@@ -83,17 +84,16 @@ export function ServicesPage() {
             style={{ filter: 'blur(2px)', transform: 'scale(1.05)', objectPosition: 'center 30%' }}
           />
           <div className="absolute inset-0" style={{ background: 'linear-gradient(to right, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.7) 45%, rgba(0,0,0,0.4) 100%)' }} />
-          {/* Stronger overlay on mobile for readability */}
           <div className="absolute inset-0 bg-black/30 lg:bg-transparent" />
         </div>
 
-        <div className="container-custom relative w-full py-24 lg:py-0">
-          <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
+        <div className="container-custom relative w-full h-full flex items-center pt-20 lg:pt-[96px] xl:pt-[100px] pb-8 lg:pb-12">
+          <div className="grid lg:grid-cols-2 gap-8 lg:gap-8 xl:gap-10 2xl:gap-12 items-center w-full">
             {/* Content */}
             <div>
-              <div className="flex items-center gap-4 mb-6">
-                <div className="w-12 h-12 lg:w-14 lg:h-14 flex items-center justify-center bg-accent-500 text-white transition-all duration-500">
-                  <Icon className="w-6 h-6 lg:w-7 lg:h-7" />
+              <div className="flex items-center gap-3 lg:gap-3 xl:gap-4 mb-4 lg:mb-4 xl:mb-6">
+                <div className="w-11 h-11 lg:w-10 lg:h-10 xl:w-12 xl:h-12 2xl:w-14 2xl:h-14 flex items-center justify-center bg-accent-500 text-white transition-all duration-500">
+                  <Icon className="w-5 h-5 lg:w-5 lg:h-5 xl:w-6 xl:h-6 2xl:w-7 2xl:h-7" />
                 </div>
                 <div>
                   <p className="text-accent-400 text-xs font-bold tracking-[0.2em] uppercase">
@@ -101,24 +101,24 @@ export function ServicesPage() {
                   </p>
                 </div>
               </div>
-              <h2 className="font-display text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-cream-100 mb-4 lg:mb-6" style={{ textShadow: '0 2px 10px rgba(0,0,0,0.8)' }}>
+              <h2 className="font-display text-2xl sm:text-3xl md:text-4xl lg:text-[1.75rem] xl:text-3xl 2xl:text-5xl font-bold text-cream-100 mb-3 lg:mb-3 xl:mb-4 2xl:mb-6" style={{ textShadow: '0 2px 10px rgba(0,0,0,0.8)' }}>
                 {current.title}
               </h2>
-              <p className="text-cream-100/80 text-base lg:text-lg leading-relaxed max-w-lg" style={{ textShadow: '0 1px 3px rgba(0,0,0,0.8)' }}>
+              <p className="text-cream-100/80 text-sm lg:text-sm xl:text-base 2xl:text-lg leading-relaxed max-w-lg" style={{ textShadow: '0 1px 3px rgba(0,0,0,0.8)' }}>
                 {current.description}
               </p>
 
               {/* Navigation */}
-              <div className="mt-8 lg:mt-10 flex items-center gap-4">
-                <button onClick={() => goToService(activeService - 1)} className="w-11 h-11 lg:w-12 lg:h-12 flex items-center justify-center border border-dark-600 text-cream-100/70 hover:border-accent-500 hover:text-accent-400 transition-all duration-300" aria-label="Previous service">
+              <div className="mt-6 lg:mt-6 xl:mt-8 2xl:mt-10 flex items-center gap-3 lg:gap-3 xl:gap-4">
+                <button onClick={() => goToService(activeService - 1)} className="w-10 h-10 lg:w-10 lg:h-10 xl:w-11 xl:h-11 2xl:w-12 2xl:h-12 flex items-center justify-center border border-dark-600 text-cream-100/70 hover:border-accent-500 hover:text-accent-400 transition-all duration-300" aria-label="Previous service">
                   <ChevronLeft className="w-5 h-5" />
                 </button>
-                <button onClick={() => goToService(activeService + 1)} className="w-11 h-11 lg:w-12 lg:h-12 flex items-center justify-center border border-dark-600 text-cream-100/70 hover:border-accent-500 hover:text-accent-400 transition-all duration-300" aria-label="Next service">
+                <button onClick={() => goToService(activeService + 1)} className="w-10 h-10 lg:w-10 lg:h-10 xl:w-11 xl:h-11 2xl:w-12 2xl:h-12 flex items-center justify-center border border-dark-600 text-cream-100/70 hover:border-accent-500 hover:text-accent-400 transition-all duration-300" aria-label="Next service">
                   <ChevronRight className="w-5 h-5" />
                 </button>
-                <div className="flex gap-2 ml-4">
+                <div className="flex gap-1.5 lg:gap-1.5 xl:gap-2 ml-3 lg:ml-3 xl:ml-4">
                   {services.map((_, i) => (
-                    <button key={i} onClick={() => goToService(i)} className={`h-1.5 rounded-full transition-all duration-300 ${i === activeService ? 'w-8 bg-accent-500' : 'w-3 bg-dark-600 hover:bg-dark-500'}`} aria-label={`Go to service ${i + 1}`} />
+                    <button key={i} onClick={() => goToService(i)} className={`h-1.5 rounded-full transition-all duration-300 ${i === activeService ? 'w-5 lg:w-6 xl:w-8 bg-accent-500' : 'w-2 lg:w-2.5 xl:w-3 bg-dark-600 hover:bg-dark-500'}`} aria-label={`Go to service ${i + 1}`} />
                   ))}
                 </div>
               </div>
@@ -129,8 +129,8 @@ export function ServicesPage() {
               <div className="relative overflow-hidden" style={{ borderRadius: '8px' }}>
                 <ImageWithFallback basePath={stripExtension(current.image)} alt={current.title} className="w-full aspect-[4/3] object-cover" style={{ objectPosition: 'center 30%' }} />
                 <div className="absolute inset-0" style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.6) 0%, transparent 40%)' }} />
-                <div className="absolute bottom-0 left-0 right-0 p-6">
-                  <h3 className="text-xl font-semibold text-accent-400 hero-text-strong">{current.title}</h3>
+                <div className="absolute bottom-0 left-0 right-0 p-3 lg:p-4 xl:p-5 2xl:p-6">
+                  <h3 className="text-base lg:text-lg xl:text-xl font-semibold text-accent-400 hero-text-strong">{current.title}</h3>
                 </div>
               </div>
             </div>

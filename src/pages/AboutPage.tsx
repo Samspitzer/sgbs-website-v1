@@ -27,17 +27,17 @@ export function AboutPage() {
           <div className="absolute inset-x-0 top-0 h-40 hero-top-gradient" />
         </div>
 
-        <div className="relative h-full w-full px-6 md:px-14 lg:px-20 xl:px-24">
+        <div className="relative h-full w-full px-6 md:px-10 lg:px-12 xl:px-16 2xl:px-24">
           <div className="flex flex-col justify-center min-h-screen lg:h-full pt-24 pb-12 lg:pt-20 lg:pb-0">
             <div className="max-w-3xl">
-              <p className="text-accent-400 font-bold tracking-[0.2em] uppercase text-sm lg:text-base mb-4 animate-fade-in hero-text-strong">
+              <p className="text-accent-400 font-bold tracking-[0.2em] uppercase text-sm mb-4 animate-fade-in hero-text-strong">
                 About S&G Builders Supply
               </p>
-              <h1 className="font-display text-[2.25rem] sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white leading-[1.1] animate-fade-in-up hero-text-strong">
+              <h1 className="font-display text-[2.25rem] sm:text-5xl md:text-6xl lg:text-5xl xl:text-6xl 2xl:text-7xl font-bold text-white leading-[1.1] animate-fade-in-up hero-text-strong">
                 Your Single Source for<br />
                 <span className="text-accent-400">Doors &amp; Hardware</span>
               </h1>
-              <p className="mt-6 text-base lg:text-xl text-white/90 font-medium leading-relaxed max-w-lg animate-fade-in-up stagger-2 hero-text">
+              <p className="mt-6 text-base lg:text-lg xl:text-xl text-white/90 font-medium leading-relaxed max-w-lg animate-fade-in-up stagger-2 hero-text">
                 Specializing in multifamily and commercial construction — complete door, frame, hardware, and millwork packages delivered nationwide.
               </p>
               <div className="mt-8 lg:mt-10 flex flex-col sm:flex-row gap-3 sm:gap-4 animate-fade-in-up stagger-3">
@@ -59,13 +59,13 @@ export function AboutPage() {
         </div>
 
         <div className="container-custom relative">
-          <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
+          <div className="grid lg:grid-cols-2 gap-10 lg:gap-10 xl:gap-14 2xl:gap-16 items-center">
             <div className="animate-fade-in-up">
               <div className="line-accent mb-6" />
-              <h2 className="font-display text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-cream-100" style={{ textShadow: '0 2px 10px rgba(0,0,0,0.8)' }}>
+              <h2 className="font-display text-2xl sm:text-3xl md:text-4xl lg:text-3xl xl:text-4xl 2xl:text-5xl font-bold text-cream-100" style={{ textShadow: '0 2px 10px rgba(0,0,0,0.8)' }}>
                 Your Complete Door &amp; Hardware Solution
               </h2>
-              <div className="mt-6 lg:mt-8 space-y-5 lg:space-y-6 text-cream-100/80 text-base lg:text-lg leading-relaxed" style={{ textShadow: '0 1px 3px rgba(0,0,0,0.8)' }}>
+              <div className="mt-6 lg:mt-6 xl:mt-8 space-y-5 lg:space-y-4 xl:space-y-6 text-cream-100/80 text-base lg:text-[15px] xl:text-lg leading-relaxed" style={{ textShadow: '0 1px 3px rgba(0,0,0,0.8)' }}>
                 <p>
                   S&G Builders Supply Inc. is your single source for doors, frames, hardware,
                   and molding. We specialize in multifamily residential and commercial construction,
@@ -80,18 +80,18 @@ export function AboutPage() {
               </div>
             </div>
 
-            <div className="grid grid-cols-2 gap-4 lg:gap-6 animate-fade-in-up stagger-2">
+            <div className="grid grid-cols-2 gap-4 lg:gap-4 xl:gap-6 animate-fade-in-up stagger-2">
               {stats.map((stat, index) => (
                 <div
                   key={stat.label}
-                  className={`p-6 lg:p-8 border bg-dark-800/50 backdrop-blur-sm transition-all duration-300 hover:border-accent-500/50 ${
+                  className={`p-5 lg:p-5 xl:p-6 2xl:p-8 border bg-dark-800/50 backdrop-blur-sm transition-all duration-300 hover:border-accent-500/50 ${
                     index === 0 ? 'border-accent-500/50' : 'border-dark-600'
                   }`}
                 >
-                  <div className="text-3xl lg:text-4xl xl:text-5xl font-display font-bold text-accent-400">
+                  <div className="text-2xl lg:text-3xl xl:text-4xl 2xl:text-5xl font-display font-bold text-accent-400">
                     {stat.value}
                   </div>
-                  <div className="mt-2 text-cream-100/60 text-xs lg:text-sm uppercase tracking-wide">
+                  <div className="mt-2 text-cream-100/60 text-xs lg:text-xs xl:text-sm uppercase tracking-wide">
                     {stat.label}
                   </div>
                 </div>
