@@ -44,7 +44,7 @@ export function Footer({ isSnapSection = false }: FooterProps) {
   };
 
   const inputClass = (field: string) =>
-    `w-full px-3 py-1.5 lg:py-2 bg-dark-950/70 border text-white text-xs lg:text-sm placeholder-cream-100/35 focus:outline-none transition-colors backdrop-blur-md ${
+    `w-full px-3 py-2.5 md:py-3 lg:py-2 bg-dark-950/70 border text-white text-base md:text-sm lg:text-sm placeholder-cream-100/35 focus:outline-none transition-colors backdrop-blur-md ${
       errors[field] ? 'border-red-500/60 focus:border-red-400' : 'border-white/15 focus:border-accent-500/60'
     }`;
 
@@ -81,23 +81,23 @@ export function Footer({ isSnapSection = false }: FooterProps) {
                 <div className="space-y-2 lg:space-y-2.5">
                   <a href="tel:845-923-2052" className="flex items-center gap-2.5 group">
                     <div className="w-7 h-7 lg:w-8 lg:h-8 flex-shrink-0 flex items-center justify-center bg-accent-500/20 group-hover:bg-accent-500 transition-colors"><Phone className="w-3 h-3 lg:w-3.5 lg:h-3.5 text-accent-400 group-hover:text-white transition-colors" /></div>
-                    <div><div className="text-white text-sm font-bold group-hover:text-accent-300 transition-colors" style={{ textShadow: sharp }}>845-923-2052</div><div className="text-white/60 text-[11px] font-medium" style={{ textShadow: sharpLight }}>Call us directly</div></div>
+                    <div><div className="text-white text-base md:text-sm font-bold group-hover:text-accent-300 transition-colors" style={{ textShadow: sharp }}>845-923-2052</div><div className="text-white/60 text-xs md:text-[11px] font-medium" style={{ textShadow: sharpLight }}>Call us directly</div></div>
                   </a>
                   <a href="mailto:sales@sgbsny.com" className="flex items-center gap-2.5 group">
                     <div className="w-7 h-7 lg:w-8 lg:h-8 flex-shrink-0 flex items-center justify-center bg-accent-500/20 group-hover:bg-accent-500 transition-colors"><Mail className="w-3 h-3 lg:w-3.5 lg:h-3.5 text-accent-400 group-hover:text-white transition-colors" /></div>
-                    <div><div className="text-white text-sm font-bold group-hover:text-accent-300 transition-colors" style={{ textShadow: sharp }}>sales@sgbsny.com</div><div className="text-white/60 text-[11px] font-medium" style={{ textShadow: sharpLight }}>Email our team</div></div>
+                    <div><div className="text-white text-base md:text-sm font-bold group-hover:text-accent-300 transition-colors" style={{ textShadow: sharp }}>sales@sgbsny.com</div><div className="text-white/60 text-xs md:text-[11px] font-medium" style={{ textShadow: sharpLight }}>Email our team</div></div>
                   </a>
                   <a href="https://maps.google.com/?q=200+NY-17M+Harriman+NY" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2.5 group">
                     <div className="w-7 h-7 lg:w-8 lg:h-8 flex-shrink-0 flex items-center justify-center bg-accent-500/20 group-hover:bg-accent-500 transition-colors"><MapPin className="w-3 h-3 lg:w-3.5 lg:h-3.5 text-accent-400 group-hover:text-white transition-colors" /></div>
-                    <div><div className="text-white text-sm font-bold group-hover:text-accent-300 transition-colors" style={{ textShadow: sharp }}>200 NY-17M, Harriman, NY</div><div className="text-white/60 text-[11px] font-medium" style={{ textShadow: sharpLight }}>Get directions</div></div>
+                    <div><div className="text-white text-base md:text-sm font-bold group-hover:text-accent-300 transition-colors" style={{ textShadow: sharp }}>200 NY-17M, Harriman, NY</div><div className="text-white/60 text-xs md:text-[11px] font-medium" style={{ textShadow: sharpLight }}>Get directions</div></div>
                   </a>
                   <div className="flex items-center gap-2.5">
                     <div className="w-7 h-7 lg:w-8 lg:h-8 flex-shrink-0 flex items-center justify-center bg-accent-500/20"><Clock className="w-3 h-3 lg:w-3.5 lg:h-3.5 text-accent-400" /></div>
-                    <div><div className="text-white text-sm font-bold" style={{ textShadow: sharp }}>Mon – Fri: 7AM – 5PM</div><div className="text-white/60 text-[11px] font-medium" style={{ textShadow: sharpLight }}>Sat – Sun: Closed</div></div>
+                    <div><div className="text-white text-base md:text-sm font-bold" style={{ textShadow: sharp }}>Mon – Fri: 7AM – 5PM</div><div className="text-white/60 text-xs md:text-[11px] font-medium" style={{ textShadow: sharpLight }}>Sat – Sun: Closed</div></div>
                   </div>
                 </div>
                 <div className="mt-2 lg:mt-2.5 overflow-hidden relative border border-white/10">
-                  <iframe title="S&G Builders Supply Location" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2994.5!2d-74.1455!3d41.3025!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c2e3a5c1c1c1c1%3A0x1234567890abcdef!2s200%20NY-17M%2C%20Harriman%2C%20NY%2010926!5e0!3m2!1sen!2sus!4v1700000000000!5m2!1sen!2sus" width="100%" height="90" style={{ border: 0 }} allowFullScreen loading="lazy" referrerPolicy="no-referrer-when-downgrade" className="opacity-90 hover:opacity-100 transition-opacity duration-300" />
+                  <iframe title="S&G Builders Supply Location" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2994.5!2d-74.1455!3d41.3025!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c2e3a5c1c1c1c1%3A0x1234567890abcdef!2s200%20NY-17M%2C%20Harriman%2C%20NY%2010926!5e0!3m2!1sen!2sus!4v1700000000000!5m2!1sen!2sus" width="100%" style={{ border: 0 }} allowFullScreen loading="lazy" referrerPolicy="no-referrer-when-downgrade" className="h-[200px] md:h-[180px] lg:h-[160px] opacity-90 hover:opacity-100 transition-opacity duration-300" />
                   <div className="absolute inset-0 bg-dark-950/20 pointer-events-none mix-blend-multiply" />
                 </div>
                 <a href="https://wa.me/18459232428" target="_blank" rel="noopener noreferrer" className="mt-2 inline-flex items-center gap-2 text-xs text-accent-400 hover:text-accent-300 font-bold transition-colors" style={{ textShadow: sharpLight }}>
@@ -116,32 +116,32 @@ export function Footer({ isSnapSection = false }: FooterProps) {
                     <p className="text-white/60 text-sm font-medium">We've received your message and will be in touch shortly.</p>
                   </div>
                 ) : (
-                  <form onSubmit={handleSubmit} className="space-y-1.5 lg:space-y-2">
+                  <form onSubmit={handleSubmit} className="space-y-3 md:space-y-2 lg:space-y-2">
                     <div className="grid sm:grid-cols-2 gap-1.5 lg:gap-2">
                       <div>
-                        <label htmlFor="name" className="block text-[11px] font-bold text-white/80 mb-0.5" style={{ textShadow: sharpLight }}>Name *</label>
+                        <label htmlFor="name" className="block text-xs md:text-[11px] font-bold text-white/80 mb-1" style={{ textShadow: sharpLight }}>Name *</label>
                         <input type="text" id="name" name="name" value={formData.name} onChange={handleChange} className={inputClass('name')} placeholder="Your name" />
                         {errors.name && <p className="mt-0.5 text-red-400 text-[11px] font-semibold">{errors.name}</p>}
                       </div>
                       <div>
-                        <label htmlFor="company" className="block text-[11px] font-bold text-white/80 mb-0.5" style={{ textShadow: sharpLight }}>Company</label>
+                        <label htmlFor="company" className="block text-xs md:text-[11px] font-bold text-white/80 mb-1" style={{ textShadow: sharpLight }}>Company</label>
                         <input type="text" id="company" name="company" value={formData.company} onChange={handleChange} className={inputClass('company')} placeholder="Company name" />
                       </div>
                     </div>
                     <div className="grid sm:grid-cols-2 gap-1.5 lg:gap-2">
                       <div>
-                        <label htmlFor="email" className="block text-[11px] font-bold text-white/80 mb-0.5" style={{ textShadow: sharpLight }}>Email *</label>
+                        <label htmlFor="email" className="block text-xs md:text-[11px] font-bold text-white/80 mb-1" style={{ textShadow: sharpLight }}>Email *</label>
                         <input type="email" id="email" name="email" value={formData.email} onChange={handleChange} className={inputClass('email')} placeholder="email@company.com" />
                         {errors.email && <p className="mt-0.5 text-red-400 text-[11px] font-semibold">{errors.email}</p>}
                       </div>
                       <div>
-                        <label htmlFor="phone" className="block text-[11px] font-bold text-white/80 mb-0.5" style={{ textShadow: sharpLight }}>Phone</label>
+                        <label htmlFor="phone" className="block text-xs md:text-[11px] font-bold text-white/80 mb-1" style={{ textShadow: sharpLight }}>Phone</label>
                         <input type="tel" id="phone" name="phone" value={formData.phone} onChange={handleChange} className={inputClass('phone')} placeholder="(555) 555-5555" />
                         {errors.phone && <p className="mt-0.5 text-red-400 text-[11px] font-semibold">{errors.phone}</p>}
                       </div>
                     </div>
                     <div>
-                      <label htmlFor="message" className="block text-[11px] font-bold text-white/80 mb-0.5" style={{ textShadow: sharpLight }}>Message *</label>
+                      <label htmlFor="message" className="block text-xs md:text-[11px] font-bold text-white/80 mb-1" style={{ textShadow: sharpLight }}>Message *</label>
                       <textarea id="message" name="message" rows={3} value={formData.message} onChange={handleChange} className={`${inputClass('message')} resize-none`} placeholder="Tell us about your project, timeline, and what you need..." />
                       {errors.message && <p className="mt-0.5 text-red-400 text-[11px] font-semibold">{errors.message}</p>}
                     </div>

@@ -27,15 +27,26 @@ function useCarouselSize() {
     const update = () => {
       const w = window.innerWidth;
       if (w >= 1800) {
+        // 2XL desktops
         setDims({ cardW: 420, cardH: 300, offset: 380, maxVisible: 2 });
       } else if (w >= 1536) {
+        // XL desktops
         setDims({ cardW: 340, cardH: 245, offset: 320, maxVisible: 2 });
       } else if (w >= 1280) {
-        // Standard laptops: 3 visible, generous gaps
-        setDims({ cardW: 280, cardH: 200, offset: 310, maxVisible: 1 });
+        // Large laptops
+        setDims({ cardW: 280, cardH: 200, offset: 310, maxVisible: 2 });
+      } else if (w >= 1024) {
+        // Standard laptops
+        setDims({ cardW: 240, cardH: 175, offset: 270, maxVisible: 2 });
+      } else if (w >= 768) {
+        // Tablets - single card display
+        setDims({ cardW: 280, cardH: 210, offset: 0, maxVisible: 1 });
+      } else if (w >= 480) {
+        // Large phones - single card display
+        setDims({ cardW: 320, cardH: 240, offset: 0, maxVisible: 1 });
       } else {
-        // Small laptops (1024-1279): 3 visible, tight but no overlap
-        setDims({ cardW: 240, cardH: 175, offset: 270, maxVisible: 1 });
+        // Small phones - single card display
+        setDims({ cardW: 280, cardH: 210, offset: 0, maxVisible: 1 });
       }
     };
     update();
@@ -87,9 +98,9 @@ function ServiceCarousel({ services: items }: { services: typeof services }) {
                 <div className="absolute bottom-0 left-0 right-0 flex flex-col items-center text-center p-3 2xl:p-5">
                   <div className="flex items-center gap-2 mb-1">
                     <div className={`flex-shrink-0 w-7 h-7 2xl:w-[34px] 2xl:h-[34px] flex items-center justify-center transition-all duration-500 ${isCenter ? 'bg-accent-500 text-white' : 'bg-accent-500/10 text-accent-400'}`}><Icon className="w-3.5 h-3.5" /></div>
-                    <h3 className="font-semibold text-accent-400 text-sm 2xl:text-lg">{service.title}</h3>
+                    <h3 className="font-semibold text-accent-400 text-base md:text-sm 2xl:text-lg">{service.title}</h3>
                   </div>
-                  <p className="text-cream-100/70 leading-relaxed text-[10px] xl:text-[11px] 2xl:text-[13px]">{service.description}</p>
+                  <p className="text-cream-100/70 leading-relaxed text-sm md:text-xs xl:text-[11px] 2xl:text-[13px]">{service.description}</p>
                 </div>
               </div>
             </div>
@@ -104,14 +115,14 @@ function ServiceCarousel({ services: items }: { services: typeof services }) {
             <div className="relative aspect-[4/3] overflow-hidden">
               <ImageWithFallback basePath={stripExtension(s.image)} alt={s.title} className="absolute inset-0 w-full h-full object-cover" style={{ objectPosition: 'center 20%' }} />
               <div className="absolute inset-0" style={{ background: 'linear-gradient(to bottom, transparent 40%, rgba(0,0,0,0.85) 80%, rgba(0,0,0,0.95) 100%)' }} />
-              <div className="absolute bottom-0 left-0 right-0 p-5"><div className="flex items-center gap-3 mb-2"><div className="w-9 h-9 flex-shrink-0 flex items-center justify-center bg-accent-500 text-white"><Icon className="w-4 h-4" /></div><h3 className="font-semibold text-accent-400 text-lg">{s.title}</h3></div><p className="text-cream-100/70 text-sm leading-relaxed">{s.description}</p></div>
+              <div className="absolute bottom-0 left-0 right-0 p-5"><div className="flex items-center gap-3 mb-2"><div className="w-9 h-9 flex-shrink-0 flex items-center justify-center bg-accent-500 text-white"><Icon className="w-4 h-4" /></div><h3 className="font-semibold text-accent-400 text-lg md:text-base">{s.title}</h3></div><p className="text-cream-100/70 text-base md:text-sm leading-relaxed">{s.description}</p></div>
             </div>
           </div>
         ); })()}
         <div className="flex items-center gap-4 mt-5">
-          <button onClick={() => goTo(activeIndex - 1)} className="w-10 h-10 flex items-center justify-center border border-white/20 text-white/70"><ChevronLeft className="w-5 h-5" /></button>
-          <div className="flex gap-2">{items.map((_, i) => (<button key={i} onClick={() => goTo(i)} className={`h-1.5 rounded-full transition-all duration-300 ${i === activeIndex ? 'w-6 bg-accent-500' : 'w-2 bg-white/30'}`} />))}</div>
-          <button onClick={() => goTo(activeIndex + 1)} className="w-10 h-10 flex items-center justify-center border border-white/20 text-white/70"><ChevronRight className="w-5 h-5" /></button>
+          <button onClick={() => goTo(activeIndex - 1)} className="w-12 h-12 flex items-center justify-center border border-white/20 text-white/70" aria-label="Previous service"><ChevronLeft className="w-5 h-5" /></button>
+          <div className="flex gap-2 p-2">{items.map((_, i) => (<button key={i} onClick={() => goTo(i)} className={`h-2 rounded-full transition-all duration-300 ${i === activeIndex ? 'w-8 bg-accent-500' : 'w-2 bg-white/30'}`} aria-label={`Go to ${i === activeIndex ? 'current' : ''} service ${i + 1}`} />))}</div>
+          <button onClick={() => goTo(activeIndex + 1)} className="w-12 h-12 flex items-center justify-center border border-white/20 text-white/70" aria-label="Next service"><ChevronRight className="w-5 h-5" /></button>
         </div>
       </div>
 
@@ -160,8 +171,8 @@ function ProjectCarousel({ projects: items, activeIndex, onIndexChange }: { proj
                 <img src={project.image} alt={project.name} className="absolute inset-0 w-full h-full object-cover" style={{ objectPosition: 'center 20%' }} />
                 <div className="absolute inset-0" style={{ background: 'linear-gradient(to bottom, transparent 50%, rgba(0,0,0,0.4) 68%, rgba(0,0,0,0.85) 85%, rgba(0,0,0,0.95) 100%)' }} />
                 <div className="absolute bottom-0 left-0 right-0 flex flex-col items-center text-center p-3 2xl:p-5">
-                  <h3 className="font-semibold text-accent-400 text-sm 2xl:text-lg mb-0.5">{project.name}</h3>
-                  <p className="text-cream-100/70 leading-relaxed text-[10px] xl:text-[11px] 2xl:text-[13px]">{project.location} &middot; {project.units}</p>
+                  <h3 className="font-semibold text-accent-400 text-base md:text-sm 2xl:text-lg mb-0.5">{project.name}</h3>
+                  <p className="text-cream-100/70 leading-relaxed text-sm md:text-xs xl:text-[11px] 2xl:text-[13px]">{project.location} &middot; {project.units}</p>
                 </div>
               </div>
             </div>
@@ -176,14 +187,14 @@ function ProjectCarousel({ projects: items, activeIndex, onIndexChange }: { proj
             <div className="relative aspect-[4/3] overflow-hidden">
               <img src={p.image} alt={p.name} className="absolute inset-0 w-full h-full object-cover" style={{ objectPosition: 'center 20%' }} />
               <div className="absolute inset-0" style={{ background: 'linear-gradient(to bottom, transparent 40%, rgba(0,0,0,0.85) 80%, rgba(0,0,0,0.95) 100%)' }} />
-              <div className="absolute bottom-0 left-0 right-0 p-5 text-center"><h3 className="font-semibold text-accent-400 text-lg mb-1">{p.name}</h3><p className="text-cream-100/70 text-sm">{p.location} · {p.units}</p></div>
+              <div className="absolute bottom-0 left-0 right-0 p-5 text-center"><h3 className="font-semibold text-accent-400 text-lg md:text-base mb-1">{p.name}</h3><p className="text-cream-100/70 text-base md:text-sm">{p.location} · {p.units}</p></div>
             </div>
           </div>
         ); })()}
         <div className="flex items-center gap-4 mt-5">
-          <button onClick={() => goTo(activeIndex - 1)} className="w-10 h-10 flex items-center justify-center border border-white/20 text-white/70"><ChevronLeft className="w-5 h-5" /></button>
-          <div className="flex gap-1.5">{items.map((_, i) => (<button key={i} onClick={() => goTo(i)} className={`h-1.5 rounded-full transition-all duration-300 ${i === activeIndex ? 'w-5 bg-accent-500' : 'w-1.5 bg-white/30'}`} />))}</div>
-          <button onClick={() => goTo(activeIndex + 1)} className="w-10 h-10 flex items-center justify-center border border-white/20 text-white/70"><ChevronRight className="w-5 h-5" /></button>
+          <button onClick={() => goTo(activeIndex - 1)} className="w-12 h-12 flex items-center justify-center border border-white/20 text-white/70" aria-label="Previous project"><ChevronLeft className="w-5 h-5" /></button>
+          <div className="flex gap-2 p-2">{items.map((_, i) => (<button key={i} onClick={() => goTo(i)} className={`h-2 rounded-full transition-all duration-300 ${i === activeIndex ? 'w-8 bg-accent-500' : 'w-2 bg-white/30'}`} aria-label={`Go to ${i === activeIndex ? 'current' : ''} project ${i + 1}`} />))}</div>
+          <button onClick={() => goTo(activeIndex + 1)} className="w-12 h-12 flex items-center justify-center border border-white/20 text-white/70" aria-label="Next project"><ChevronRight className="w-5 h-5" /></button>
         </div>
       </div>
 
@@ -220,7 +231,7 @@ export function HomePage() {
           <div className="absolute inset-0 hero-text-backdrop" />
           <div className="absolute inset-x-0 top-0 h-40 hero-top-gradient" />
         </div>
-        <div className="relative h-full w-full px-6 md:px-10 lg:px-12 xl:px-16 2xl:px-24">
+        <div className="relative h-full w-full px-4 sm:px-6 md:px-10 lg:px-12 xl:px-16 2xl:px-24">
           <div className="flex flex-col justify-center min-h-screen lg:h-full pt-24 pb-12 lg:pt-20 lg:pb-0">
             <div className="max-w-3xl">
               <p className="text-white font-bold tracking-[0.15em] uppercase text-sm mb-3 animate-fade-in hero-text-strong">Your Complete Door, Hardware & Millwork Partner</p>
@@ -271,7 +282,7 @@ export function HomePage() {
           <img src="/images/backgrounds/services.jpg" alt="" className="w-full h-full object-cover" style={{ filter: 'blur(2px)', transform: 'scale(1.02)' }} />
           <div className="absolute inset-0" style={{ background: 'linear-gradient(to bottom, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.25) 30%, rgba(0,0,0,0.2) 60%, rgba(0,0,0,0.5) 100%)' }} />
         </div>
-        <div className="relative z-10 w-full flex flex-col items-center text-center px-6 pt-20 lg:pt-[96px] xl:pt-[100px] 2xl:pt-[120px] mb-1 lg:mb-2">
+        <div className="relative z-10 w-full flex flex-col items-center text-center px-6 pt-16 md:pt-20 lg:pt-[96px] xl:pt-[100px] 2xl:pt-[120px] mb-1 lg:mb-2">
           <h2 className="font-display font-bold text-cream-100 text-2xl sm:text-3xl lg:text-[1.75rem] xl:text-[2rem] 2xl:text-[48px] mb-1.5 lg:mb-2" style={{ textShadow: '0 2px 10px rgba(0,0,0,0.8), 0 0 40px rgba(0,0,0,0.5)' }}>Full-Service Solutions</h2>
           <p className="text-white font-semibold text-sm lg:text-sm xl:text-base max-w-[580px]" style={{ textShadow: '0 1px 3px rgba(0,0,0,1), 0 2px 8px rgba(0,0,0,0.9)' }}>
             From initial estimating through final punch list, we handle <span className="text-accent-400">every phase</span> of your door, hardware, and millwork scope.
@@ -286,7 +297,7 @@ export function HomePage() {
           <img src="/images/backgrounds/projects.jpg" alt="" className="w-full h-full object-cover" style={{ filter: 'blur(2px)', transform: 'scale(1.05)' }} />
           <div className="absolute inset-0" style={{ background: 'linear-gradient(to bottom, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.35) 30%, rgba(0,0,0,0.3) 60%, rgba(0,0,0,0.6) 100%)' }} />
         </div>
-        <div className="relative z-10 w-full flex flex-col items-center text-center px-6 pt-20 lg:pt-[96px] xl:pt-[100px] 2xl:pt-[120px] mb-1 lg:mb-2">
+        <div className="relative z-10 w-full flex flex-col items-center text-center px-6 pt-16 md:pt-20 lg:pt-[96px] xl:pt-[100px] 2xl:pt-[120px] mb-1 lg:mb-2">
           <h2 className="font-display font-bold text-cream-100 text-2xl sm:text-3xl lg:text-[1.75rem] xl:text-[2rem] 2xl:text-[48px] mb-1.5 lg:mb-2" style={{ textShadow: '0 2px 10px rgba(0,0,0,0.8), 0 0 40px rgba(0,0,0,0.5)' }}>Featured Projects</h2>
           <p className="text-white font-semibold text-sm lg:text-sm xl:text-base max-w-[580px]" style={{ textShadow: '0 1px 3px rgba(0,0,0,1), 0 2px 8px rgba(0,0,0,0.9)' }}>
             A sample of recent multifamily and commercial work across the <span className="text-accent-400">Northeast and beyond</span>.

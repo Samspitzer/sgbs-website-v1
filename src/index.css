@@ -314,7 +314,7 @@ body {
    ============================================ */
 
 .btn-primary {
-  @apply inline-flex items-center justify-center gap-2 px-8 py-4 bg-accent-500 text-white font-semibold tracking-wide transition-all duration-300;
+  @apply inline-flex items-center justify-center gap-2 px-6 py-3 sm:px-8 sm:py-4 bg-accent-500 text-white font-semibold tracking-wide transition-all duration-300;
 }
 
 .btn-primary:hover {
@@ -323,7 +323,7 @@ body {
 }
 
 .btn-outline {
-  @apply inline-flex items-center justify-center gap-2 px-8 py-4 border-2 border-white/50 text-white font-semibold tracking-wide transition-all duration-300;
+  @apply inline-flex items-center justify-center gap-2 px-6 py-3 sm:px-8 sm:py-4 border-2 border-white/50 text-white font-semibold tracking-wide transition-all duration-300;
   background: rgba(0, 0, 0, 0.25);
 }
 

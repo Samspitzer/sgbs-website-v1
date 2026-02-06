@@ -181,7 +181,7 @@ export function Header() {
                   key={link.label}
                   href="#contact"
                   onClick={scrollToContact}
-                  className="text-xl sm:text-2xl font-display font-semibold text-cream-100 hover:text-accent-400 transition-colors"
+                  className="text-lg sm:text-xl md:text-2xl font-display font-semibold text-cream-100 hover:text-accent-400 transition-colors"
                   style={{ transitionDelay: `${i * 50}ms` }}
                 >
                   {link.label}
@@ -190,7 +190,7 @@ export function Header() {
                 <Link
                   key={link.label}
                   to={link.to}
-                  className={`text-xl sm:text-2xl font-display font-semibold transition-colors ${
+                  className={`text-lg sm:text-xl md:text-2xl font-display font-semibold transition-colors ${
                     isActive(link.to) ? 'text-accent-400' : 'text-cream-100 hover:text-accent-400'
                   }`}
                   style={{ transitionDelay: `${i * 50}ms` }}
